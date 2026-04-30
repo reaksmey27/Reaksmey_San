@@ -9,8 +9,15 @@ import {
   Play,
 } from "lucide-react";
 import { IoLogoJavascript } from "react-icons/io5";
-import { FaCss3Alt, FaFacebookF, FaFigma, FaHtml5, FaNodeJs, FaReact } from "react-icons/fa";
-import { SiExpress, SiTailwindcss } from "react-icons/si";
+import {
+  FaCss3Alt,
+  FaFacebookF,
+  FaFigma,
+  FaHtml5,
+  FaNodeJs,
+  FaReact,
+} from "react-icons/fa";
+import { SiExpress, SiTailwindcss, SiPython, SiFlask } from "react-icons/si";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { SECTION_IDS } from "../config/site";
 import { useLanguage } from "../context/LanguageContext";
@@ -29,7 +36,9 @@ function getTechIcon(tech, className = "w-4 h-4") {
     case "Node.js":
       return <FaNodeJs className={`${className} text-[#5FA04E]`} />;
     case "Express.js":
-      return <SiExpress className={`${className} text-[var(--color-foreground)]`} />;
+      return (
+        <SiExpress className={`${className} text-[var(--color-foreground)]`} />
+      );
     case "Tailwind":
       return <SiTailwindcss className={`${className} text-[#06B6D4]`} />;
     case "HTML":
@@ -42,6 +51,10 @@ function getTechIcon(tech, className = "w-4 h-4") {
       return <FaFacebookF className={`${className} text-[#1877F2]`} />;
     case "Figma":
       return <FaFigma className={`${className} text-[#F24E1E]`} />;
+    case "Python":
+      return <SiPython className={`${className} text-[#3776AB]`} />;
+    case "Flask":
+      return <SiFlask className={`${className} text-[#000000]`} />;
     default:
       return null;
   }
@@ -148,13 +161,19 @@ export function Projects() {
         </motion.div>
 
         {paginatedProjects.length === 0 ? (
-          <p className="text-center text-[var(--color-muted)]">{t.projects.noProjects}</p>
+          <p className="text-center text-[var(--color-muted)]">
+            {t.projects.noProjects}
+          </p>
         ) : (
-          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-y-24">
+          <motion.div
+            layout
+            className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-y-24"
+          >
             <AnimatePresence mode="popLayout">
               {paginatedProjects.map((project, index) => {
                 const isExpanded = expandedProjectId === project.id;
-                const hasSinglePrimaryLink = project.links.length === 1 && project.links[0].primary;
+                const hasSinglePrimaryLink =
+                  project.links.length === 1 && project.links[0].primary;
 
                 return (
                   <motion.div
@@ -163,12 +182,21 @@ export function Projects() {
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
+                    transition={{
+                      duration: 0.7,
+                      ease: [0.21, 0.47, 0.32, 0.98],
+                    }}
                     className={`group flex flex-col rounded-3xl p-4 sm:p-5 transition-all duration-500 hover:bg-[var(--color-foreground)]/[0.02] border border-transparent hover:border-white/5 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.08)] ${
-                      paginatedProjects.length % 2 !== 0 && index === paginatedProjects.length - 1 ? "md:col-span-2" : ""
+                      paginatedProjects.length % 2 !== 0 &&
+                      index === paginatedProjects.length - 1
+                        ? "md:col-span-2"
+                        : ""
                     }`}
                   >
-                    <motion.div layout="position" className="relative overflow-hidden rounded-2xl mb-8 aspect-[4/3] bg-[var(--color-background)]">
+                    <motion.div
+                      layout="position"
+                      className="relative overflow-hidden rounded-2xl mb-8 aspect-[4/3] bg-[var(--color-background)]"
+                    >
                       <img
                         src={project.image}
                         alt={project.title}
@@ -176,7 +204,10 @@ export function Projects() {
                         loading="lazy"
                         onLoad={(e) => {
                           e.currentTarget.animate(
-                            [{ opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0)" }],
+                            [
+                              { opacity: 0, filter: "blur(10px)" },
+                              { opacity: 1, filter: "blur(0)" },
+                            ],
                             { duration: 700, easing: "ease-out" },
                           );
                         }}
@@ -192,7 +223,10 @@ export function Projects() {
                             className="inline-flex items-center gap-2 rounded-full bg-[var(--color-foreground)] text-[var(--color-background)] px-5 py-3 text-sm font-medium hover:scale-105 transition-transform"
                           >
                             {getLinkIcon(project.links[0].kind, "w-4 h-4")}
-                            {getLocalizedValue(project.links[0].label, language)}
+                            {getLocalizedValue(
+                              project.links[0].label,
+                              language,
+                            )}
                           </a>
                         ) : (
                           <div className="flex gap-4">
@@ -202,7 +236,10 @@ export function Projects() {
                                 href={link.url}
                                 target="_blank"
                                 rel="noreferrer"
-                                aria-label={getLocalizedValue(link.label, language)}
+                                aria-label={getLocalizedValue(
+                                  link.label,
+                                  language,
+                                )}
                                 className={`w-12 h-12 rounded-full flex items-center justify-center hover:scale-110 transition-transform ${
                                   link.kind === "code"
                                     ? "bg-[var(--color-background)]/55 text-[var(--color-foreground)] border border-[var(--color-glass-border)]"
@@ -218,9 +255,14 @@ export function Projects() {
                     </motion.div>
 
                     <motion.div layout className="flex flex-col gap-3">
-                      <motion.div layout className="flex items-center justify-between gap-4">
+                      <motion.div
+                        layout
+                        className="flex items-center justify-between gap-4"
+                      >
                         <div className="flex items-center gap-3 flex-wrap">
-                          <span className={`text-xs font-medium tracking-wider px-3 py-1 rounded-full ${getBadgeClasses(project.type)}`}>
+                          <span
+                            className={`text-xs font-medium tracking-wider px-3 py-1 rounded-full ${getBadgeClasses(project.type)}`}
+                          >
                             {getLocalizedValue(project.badge, language)}
                           </span>
                           {project.isNew && (
@@ -238,11 +280,17 @@ export function Projects() {
                         </span>
                       </motion.div>
 
-                      <motion.h4 layout className="text-xl sm:text-2xl font-display font-medium tracking-tight group-hover:text-gray-300 transition-colors">
+                      <motion.h4
+                        layout
+                        className="text-xl sm:text-2xl font-display font-medium tracking-tight group-hover:text-gray-300 transition-colors"
+                      >
                         {project.title}
                       </motion.h4>
 
-                      <motion.p layout className="text-[var(--color-muted)] text-sm sm:text-base font-light leading-relaxed mb-1 max-w-xl">
+                      <motion.p
+                        layout
+                        className="text-[var(--color-muted)] text-sm sm:text-base font-light leading-relaxed mb-1 max-w-xl"
+                      >
                         {getLocalizedValue(project.description, language)}
                       </motion.p>
 
@@ -256,7 +304,10 @@ export function Projects() {
                           >
                             <div className="flex flex-col gap-5 pt-3 pb-4">
                               <p className="text-[var(--color-muted)] font-light leading-relaxed text-sm">
-                                {getLocalizedValue(project.longDescription, language)}
+                                {getLocalizedValue(
+                                  project.longDescription,
+                                  language,
+                                )}
                               </p>
                               <div className="flex flex-wrap gap-3">
                                 {project.links.map((link) => (
@@ -298,10 +349,14 @@ export function Projects() {
                       <motion.button
                         layout
                         type="button"
-                        onClick={() => setExpandedProjectId(isExpanded ? null : project.id)}
+                        onClick={() =>
+                          setExpandedProjectId(isExpanded ? null : project.id)
+                        }
                         className="mt-5 w-fit flex items-center gap-2 px-4 py-2 rounded-full border border-white/5 bg-[var(--color-card)] text-xs font-medium tracking-widest uppercase text-[var(--color-foreground)]/70 group-hover:bg-[var(--color-foreground)] group-hover:text-[var(--color-background)] group-hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all duration-300"
                       >
-                        {isExpanded ? t.projects.viewLess : t.projects.viewDetails}
+                        {isExpanded
+                          ? t.projects.viewLess
+                          : t.projects.viewDetails}
                         <motion.div
                           animate={{ rotate: isExpanded ? 180 : 0 }}
                           transition={{ duration: 0.3 }}
@@ -350,7 +405,9 @@ export function Projects() {
             </div>
             <button
               type="button"
-              onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
+              onClick={() =>
+                setCurrentPage((page) => Math.min(totalPages, page + 1))
+              }
               disabled={currentPage === totalPages}
               className="p-2 sm:p-2.5 rounded-full border border-[var(--color-border)] bg-[var(--color-card)] text-[var(--color-foreground)]/70 hover:bg-[var(--color-card-active)] hover:text-[var(--color-foreground)] hover:scale-110 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-[var(--color-card)] disabled:hover:text-[var(--color-foreground)]/70 transition-all duration-300"
             >

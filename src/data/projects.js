@@ -5,6 +5,7 @@ import pro4Image from "../assets/images/pro4.png";
 import pro5Image from "../assets/images/pro5.png";
 import pro6Image from "../assets/images/Pro6.png";
 import pro7Image from "../assets/images/pro7.png";
+import pro8Image from "../assets/images/pro8.png";
 
 export const PROJECTS_PER_PAGE = 4;
 
@@ -82,6 +83,7 @@ export const PROJECTS = [
       },
     ],
   },
+  
   {
     id: 3,
     title: "Quiz System Website",
@@ -136,6 +138,33 @@ export const PROJECTS = [
       },
     ],
   },
+
+  {
+    id: 8,
+    title: "Restaurant Order System",
+    type: "web",
+    badge: { en: "Web Development", km: "អភិវឌ្ឍន៍វេបសាយ" },
+    date: { en: "Oct 20 - Nov 4 2025", km: "តុលា ២០ - វិច្ឆុកា ៤ ២០២៥" },
+    description: {
+      en: "A restaurant ordering system built with Python Flask, HTML, and CSS for managing customer orders.",
+      km: "ប្រព័ន្ធបញ្ចាប់ការលក់អាហារដែលបង្កើតដោយ Python Flask, HTML និង CSS សម្រាប់គ្រប់គ្រងការបញ្ចាប់ការលក់អាហាររបស់អតិថិជន។",
+    },
+    longDescription: {
+      en: "A full-featured restaurant ordering system that allows customers to browse menu items, place orders, and track their status in real-time.",
+      km: "ប្រព័ន្ធបញ្ចាប់ការលក់អាហារពេញលេញដែលឱ្យឱកាសអតិថិជនក្នុងការមើលម៉ឺនុយ បញ្ចាប់ការលក់អាហារ និងតាមដានស្ថានភាពរបស់ពួកគេក្នុងពេលវេលាពិតប្រាកដ។",
+    },
+    tech: ["Python", "Flask", "HTML", "CSS"],
+    image: pro8Image,
+    isNew: true,
+    links: [
+      {
+        kind: "code",
+        url: "https://github.com/reaksmey27/Restaurant_Ordering_System1",
+        label: { en: "Source Code", km: "កូដដើម" },
+      },
+    ],
+  },
+
   {
     id: 5,
     title: "E-Commerce Website",
