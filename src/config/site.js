@@ -43,7 +43,7 @@ export const PROFILE_ASSETS = {
 export const CONTACT_DETAILS = {
   email: "reaksmey.mith@student.passerellesnumeriques.org",
   location: "Phnom Penh, Cambodia",
-  resumeHref: "#",
+  resumeHref: new URL("../assets/CV/CV & CL REAKSMEY SAN.pdf", import.meta.url).href,
 };
 
 export const SOCIAL_LINKS = [
