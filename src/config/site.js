@@ -41,7 +41,7 @@ export const PROFILE_ASSETS = {
 };
 
 export const CONTACT_DETAILS = {
-  email: "reaksmey.mith@student.passerellesnumeriques.org",
+  email: "reaksmey.san@student.passerellesnumeriques.org",
   location: "Phnom Penh, Cambodia",
   resumeHref: new URL("../assets/CV/CV & CL REAKSMEY SAN.pdf", import.meta.url).href,
 };
