@@ -6,6 +6,8 @@ import pro5Image from "../assets/images/pro5.png";
 import pro6Image from "../assets/images/Pro6.png";
 import pro7Image from "../assets/images/pro7.png";
 import pro8Image from "../assets/images/pro8.png";
+import pro9Image from "../assets/images/pro9.png";
+import pro10Image from "../assets/images/pro10.png";
 
 export const PROJECTS_PER_PAGE = 4;
 
@@ -23,6 +25,62 @@ export const PROJECT_BADGE_CLASS_NAMES = {
 };
 
 export const PROJECTS = [
+  {
+    id: 10,
+    title: "Full Stack E-Commerce System",
+    type: "web",
+    badge: { en: "Web Development", km: "អភិវឌ្ឍន៍វេបសាយ" },
+    date: { en: "Jun 19 - 30 2026", km: "១៩ - ៣០ មិថុនា ២០២៦" },
+    description: {
+      en: "A full stack sneaker e-commerce system with customer storefront and admin panel, built with Vue.js and Laravel.",
+      km: "ប្រព័ន្ធលក់ស្បែកជើងកីឡាតាមអនឡាញពេញលេញ ដែលមានទាំងវេបសាយសម្រាប់អតិថិជន និងផ្ទាំងគ្រប់គ្រង Admin សាងសង់ដោយ Vue.js និង Laravel។",
+    },
+    longDescription: {
+      en: "Built user and admin panels for a sneaker e-commerce system using Vue.js and Laravel. Implemented product management features with a responsive, user-friendly interface.",
+      km: "បង្កើតទាំងផ្ទាំងអតិថិជន និងផ្ទាំង Admin សម្រាប់ប្រព័ន្ធលក់ស្បែកជើងកីឡាតាមអនឡាញ ដោយប្រើ Vue.js និង Laravel។ អនុវត្តមុខងារគ្រប់គ្រងផលិតផល ជាមួយផ្ទៃមុខឆ្លើយតបល្អ និងងាយស្រួលប្រើ។",
+    },
+    tech: ["Vue.js", "Laravel", "MySQL", "GitHub", "Postman"],
+    image: pro10Image,
+    isNew: true,
+    links: [
+      {
+        kind: "code",
+        url: "https://github.com/reaksmey27/Online_Shop_Backend.git",
+        label: { en: "Backend Repo", km: "កូដ Backend" },
+      },
+      {
+        kind: "code",
+        url: "https://github.com/reaksmey27/Online_Shop_frontend.git",
+        label: { en: "Frontend Repo", km: "កូដ Frontend" },
+      },
+    ],
+  },
+  {
+    id: 9,
+    title: "Nike Shoes Shop Website",
+    type: "design",
+    badge: { en: "UX/UI Design", km: "រចនា UX/UI" },
+    date: { en: "May 13 - 14 2026", km: "១៣ - ១៤ ឧសភា ២០២៦" },
+    description: {
+      en: "A modern, responsive sneaker e-commerce interface designed as a personal UX/UI project.",
+      km: "ផ្ទៃមុខអនឡាញលក់ស្បែកជើងកីឡាទំនើប និងឆ្លើយតបបានល្អ ដែលបានរចនាជាគម្រោងផ្ទាល់ខ្លួន UX/UI។",
+    },
+    longDescription: {
+      en: "Designed a modern, responsive sneaker e-commerce interface. Created reusable UI components and interactive prototypes.",
+      km: "រចនាផ្ទៃមុខអនឡាញលក់ស្បែកជើងកីឡាទំនើប និងឆ្លើយតបបានល្អ។ បង្កើត UI components ដែលអាចប្រើឡើងវិញបាន និងគំរូអន្តរកម្ម។",
+    },
+    tech: ["Figma"],
+    image: pro9Image,
+    isNew: true,
+    links: [
+      {
+        kind: "figma",
+        url: "https://www.figma.com/proto/1wLpEOyYMULf5jzfQgkHC2/shop?page-id=0%3A1&node-id=1-5&p=f&viewport=421%2C358%2C0.07&t=ISH3S6KtpKxCHRAh-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=1%3A5",
+        label: { en: "View Prototype", km: "មើលគំរូសាកល្បង" },
+        primary: true,
+      },
+    ],
+  },
   {
     id: 1,
     title: "PNC Student Star",
@@ -83,7 +141,7 @@ export const PROJECTS = [
       },
     ],
   },
-  
+
   {
     id: 3,
     title: "Quiz System Website",

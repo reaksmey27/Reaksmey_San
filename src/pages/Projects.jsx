@@ -13,11 +13,14 @@ import {
   FaCss3Alt,
   FaFacebookF,
   FaFigma,
+  FaGithub,
   FaHtml5,
+  FaLaravel,
   FaNodeJs,
   FaReact,
+  FaVuejs,
 } from "react-icons/fa";
-import { SiExpress, SiTailwindcss, SiPython, SiFlask } from "react-icons/si";
+import { SiExpress, SiTailwindcss, SiPython, SiFlask, SiMysql, SiPostman } from "react-icons/si";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { SECTION_IDS } from "../config/site";
 import { useLanguage } from "../context/LanguageContext";
@@ -55,6 +58,18 @@ function getTechIcon(tech, className = "w-4 h-4") {
       return <SiPython className={`${className} text-[#3776AB]`} />;
     case "Flask":
       return <SiFlask className={`${className} text-[#000000]`} />;
+    case "Vue.js":
+      return <FaVuejs className={`${className} text-[#4FC08D]`} />;
+    case "Laravel":
+      return <FaLaravel className={`${className} text-[#FF2D20]`} />;
+    case "MySQL":
+      return <SiMysql className={`${className} text-[#4479A1]`} />;
+    case "GitHub":
+      return (
+        <FaGithub className={`${className} text-[var(--color-foreground)]`} />
+      );
+    case "Postman":
+      return <SiPostman className={`${className} text-[#FF6C37]`} />;
     default:
       return null;
   }

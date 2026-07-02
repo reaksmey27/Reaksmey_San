@@ -8,8 +8,8 @@ export function Hero() {
   const roles = [
     t.hero.dev,
     t.hero.designer,
-    t.hero.youtuber,
     t.hero.contentCreator,
+    t.hero.frontendDev,
   ].map((role) => `${role}.`);
   const currentRole = useTypewriter(roles);
 
