@@ -43,8 +43,8 @@ export const translations = {
       s2Desc: "Designing intuitive, user-centered digital products from wireframes to interactive prototypes in Figma.",
       s3Title: "Backend & API Development",
       s3Desc: "Architecting RESTful APIs and databases with Laravel and MySQL, tested and documented with Postman.",
-      s4Title: "Content Creation",
-      s4Desc: "Producing engaging tech tutorials, project walkthroughs, and design reviews.",
+      s4Title: "Frontend Development",
+      s4Desc: "Crafting responsive, interactive user interfaces with React, Vue.js, and Tailwind CSS.",
     },
     projects: {
       titlePrefix: "03. Selected Work",
@@ -148,8 +148,8 @@ export const translations = {
       s2Desc: "រចនាផលិតផលឌីជីថលដែលងាយស្រួលប្រើប្រាស់ តាំងពីគំនូសព្រាងរហូតដល់គំរូអន្តរកម្មក្នុង Figma។",
       s3Title: "ការអភិវឌ្ឍន៍ Backend និង API",
       s3Desc: "រៀបចំ RESTful API និងមូលដ្ឋានទិន្នន័យដោយប្រើ Laravel និង MySQL សាកល្បង និងចងក្រងឯកសារជាមួយ Postman។",
-      s4Title: "ការបង្កើតមាតិកា",
-      s4Desc: "ផលិតវីដេអូបង្រៀនបច្ចេកវិទ្យា ការណែនាំគម្រោង និងការវាយតម្លៃការរចនា។",
+      s4Title: "ការអភិវឌ្ឍន៍ Frontend",
+      s4Desc: "បង្កើតផ្ទៃមុខអ្នកប្រើប្រាស់ដែលមានលក្ខណៈអន្តរកម្ម និងឆ្លើយតបបានល្អ ដោយប្រើ React, Vue.js និង Tailwind CSS។",
     },
     projects: {
       titlePrefix: "03. ស្នាដៃដែលបានជ្រើសរើស",

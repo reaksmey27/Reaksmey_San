@@ -8,6 +8,7 @@ import pro7Image from "../assets/images/pro7.png";
 import pro8Image from "../assets/images/pro8.png";
 import pro9Image from "../assets/images/pro9.png";
 import pro10Image from "../assets/images/pro10.png";
+import pro11Image from "../assets/images/pro11.png";
 
 export const PROJECTS_PER_PAGE = 4;
 
@@ -25,6 +26,31 @@ export const PROJECT_BADGE_CLASS_NAMES = {
 };
 
 export const PROJECTS = [
+  {
+    id: 11,
+    title: "Student Leave Management System",
+    type: "web",
+    badge: { en: "Web Development", km: "អភិវឌ្ឍន៍វេបសាយ" },
+    date: { en: "Jul 3 - 30 2026", km: "៣ - ៣០ កក្កដា ២០២៦" },
+    description: {
+      en: "A student leave management dashboard for tracking leave requests, approvals, and status in real time, built with Vue.js and Laravel.",
+      km: "ប្រព័ន្ធគ្រប់គ្រងច្បាប់ឈប់សម្រាកសិស្ស ជាមួយផ្ទាំងគ្រប់គ្រងសម្រាប់តាមដានសំណើសុំច្បាប់ ការអនុម័ត និងស្ថានភាពជាក់ស្តែង បង្កើតឡើងដោយ Vue.js និង Laravel។",
+    },
+    longDescription: {
+      en: "Built leave request dashboards with REST API integration, covering pending, under review, approved, and rejected requests. Collaborated with the team via Git and GitHub throughout development.",
+      km: "បង្កើតផ្ទាំងគ្រប់គ្រងសំណើសុំច្បាប់ជាមួយការភ្ជាប់ REST API គ្របដណ្តប់សំណើដែលកំពុងរង់ចាំ កំពុងពិនិត្យ អនុម័ត និងបដិសេធ។ សហការជាមួយក្រុមការងារតាមរយៈ Git និង GitHub ពេញមួយដំណើរការអភិវឌ្ឍន៍។",
+    },
+    tech: ["Vue.js", "Laravel", "MySQL", "GitHub", "Postman"],
+    image: pro11Image,
+    isNew: true,
+    links: [
+      {
+        kind: "live",
+        url: "https://54.91.54.3.nip.io/dashboard",
+        label: { en: "Live Demo", km: "មើលផ្ទាល់" },
+      },
+    ],
+  },
   {
     id: 10,
     title: "Full Stack E-Commerce System",
