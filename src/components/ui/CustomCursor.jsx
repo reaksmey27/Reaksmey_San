@@ -43,8 +43,8 @@ export function CustomCursor() {
         type: "spring",
         stiffness: 1000,
         damping: 50,
-        mass: 0.1
-      }
+        mass: 0.1,
+      },
     },
     hover: {
       x: x - 24,
@@ -58,9 +58,9 @@ export function CustomCursor() {
         type: "spring",
         stiffness: 500,
         damping: 30,
-        mass: 0.1
-      }
-    }
+        mass: 0.1,
+      },
+    },
   };
 
   return (
@@ -79,8 +79,8 @@ export function CustomCursor() {
             type: "spring",
             stiffness: 2000,
             damping: 100,
-            mass: 0.05
-          }
+            mass: 0.05,
+          },
         }}
       />
     </>

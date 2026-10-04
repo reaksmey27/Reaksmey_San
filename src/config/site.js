@@ -43,10 +43,21 @@ export const PROFILE_ASSETS = {
 export const CONTACT_DETAILS = {
   email: "reaksmeysan.official@gmail.com",
   location: "Sangkat Tek Thla, Khan SenSok, Phnom Penh, Cambodia",
-  resumeHref: new URL("../assets/CV/REAKSMEY SAN WEB DEVELOPER CV.pdf", import.meta.url).href,
+  resumeHref: new URL("../assets/CV/REAKSMEY SAN-CV.pdf", import.meta.url).href,
+  resumeFilename: "REAKSMEY SAN-CV.pdf",
 };
 
 export const SOCIAL_LINKS = [
+  {
+    label: "Telegram",
+    href: "https://t.me/SMEY_QUALITY27?utm_source=chatgpt.com",
+    kind: "telegram",
+  },
+  {
+    label: "TikTok",
+    href: "https://www.tiktok.com/@i_am_smey27",
+    kind: "tiktok",
+  },
   {
     label: "GitHub",
     href: "https://github.com/reaksmey27",
@@ -54,7 +65,12 @@ export const SOCIAL_LINKS = [
   },
   {
     label: "Facebook",
-    href: "https://www.facebook.com/reel/2579802185738910",
+    href: "https://www.facebook.com/share/19jVxok7nj/?mibextid=wwXIfr",
+    kind: "facebook",
+  },
+  {
+    label: "Facebook Page",
+    href: "https://www.facebook.com/people/SMEY-Quality/100071068442748/",
     kind: "facebook",
   },
 ];

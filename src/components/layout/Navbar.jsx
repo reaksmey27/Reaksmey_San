@@ -43,14 +43,14 @@ export function Navbar() {
     <header
       className={cn(
         "fixed top-0 w-full z-40 transition-all duration-300",
-        isScrolled ? "py-4" : "py-6"
+        isScrolled ? "py-4" : "py-6",
       )}
     >
       <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav
           className={cn(
             "w-full flex items-center justify-between gap-4 px-4 sm:px-6 lg:px-8 py-3.5 rounded-full transition-all duration-300",
-            isScrolled ? "glass shadow-xl" : "bg-transparent"
+            isScrolled ? "glass shadow-xl" : "bg-transparent",
           )}
         >
           <a
@@ -69,7 +69,9 @@ export function Navbar() {
                   href={link.href}
                   className={cn(
                     "text-sm font-medium tracking-wide transition-colors uppercase",
-                    activeSection === link.id ? "text-[var(--color-foreground)]" : "text-[var(--color-muted)] hover:text-[var(--color-foreground)]"
+                    activeSection === link.id
+                      ? "text-[var(--color-foreground)]"
+                      : "text-[var(--color-muted)] hover:text-[var(--color-foreground)]",
                   )}
                 >
                   {link.name}
@@ -94,7 +96,11 @@ export function Navbar() {
           </div>
 
           <div className="flex md:hidden shrink-0 items-center gap-2 sm:gap-3 z-50">
-            <ThemeToggleButton theme={theme} onToggle={toggleTheme} size="mobile" />
+            <ThemeToggleButton
+              theme={theme}
+              onToggle={toggleTheme}
+              size="mobile"
+            />
             <LanguageToggle
               language={language}
               onChange={setLanguage}
@@ -117,7 +123,7 @@ export function Navbar() {
         animate={mobileMenuOpen ? "open" : "closed"}
         variants={{
           open: { opacity: 1, y: 0, pointerEvents: "auto" },
-          closed: { opacity: 0, y: -20, pointerEvents: "none" }
+          closed: { opacity: 0, y: -20, pointerEvents: "none" },
         }}
         className="fixed inset-0 z-30 bg-[var(--color-background)]/95 backdrop-blur-xl flex flex-col items-center justify-center pt-20"
       >

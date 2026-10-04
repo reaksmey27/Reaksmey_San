@@ -5,7 +5,10 @@ import { useLocalStorageState } from "../hooks/useLocalStorageState";
 const ThemeContext = createContext(undefined);
 
 function getPreferredTheme() {
-  if (typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: light)").matches) {
+  if (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-color-scheme: light)").matches
+  ) {
     return "light";
   }
 

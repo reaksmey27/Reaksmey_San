@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import {
-  ChevronDown,
+  ArrowUpRight,
   ChevronLeft,
   ChevronRight,
   ExternalLink,
   Github,
   Play,
+  X,
 } from "lucide-react";
 import { IoLogoJavascript } from "react-icons/io5";
 import {
@@ -20,7 +21,14 @@ import {
   FaReact,
   FaVuejs,
 } from "react-icons/fa";
-import { SiExpress, SiTailwindcss, SiPython, SiFlask, SiMysql, SiPostman } from "react-icons/si";
+import {
+  SiExpress,
+  SiTailwindcss,
+  SiPython,
+  SiFlask,
+  SiMysql,
+  SiPostman,
+} from "react-icons/si";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { SECTION_IDS } from "../config/site";
 import { useLanguage } from "../context/LanguageContext";
@@ -102,6 +110,23 @@ export function Projects() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [expandedProjectId, setExpandedProjectId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const detailsDialog = useRef(null);
+  const selectedProject = PROJECTS.find(
+    (project) => project.id === expandedProjectId,
+  );
+
+  useEffect(() => {
+    const dialog = detailsDialog.current;
+    if (selectedProject) {
+      dialog.showModal();
+      const previousOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        dialog.close();
+        document.body.style.overflow = previousOverflow;
+      };
+    }
+  }, [selectedProject]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -132,7 +157,7 @@ export function Projects() {
   );
 
   return (
-    <section className="py-32 relative" id={SECTION_IDS.work}>
+    <section className="pt-24 pb-10 relative" id={SECTION_IDS.work}>
       <div className="container mx-auto px-6 max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -182,11 +207,10 @@ export function Projects() {
         ) : (
           <motion.div
             layout
-            className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-y-24"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr gap-6 items-stretch"
           >
             <AnimatePresence mode="popLayout">
-              {paginatedProjects.map((project, index) => {
-                const isExpanded = expandedProjectId === project.id;
+              {paginatedProjects.map((project) => {
                 const hasSinglePrimaryLink =
                   project.links.length === 1 && project.links[0].primary;
 
@@ -201,16 +225,11 @@ export function Projects() {
                       duration: 0.7,
                       ease: [0.21, 0.47, 0.32, 0.98],
                     }}
-                    className={`group flex flex-col rounded-3xl p-4 sm:p-5 transition-all duration-500 hover:bg-[var(--color-foreground)]/[0.02] border border-transparent hover:border-white/5 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.08)] ${
-                      paginatedProjects.length % 2 !== 0 &&
-                      index === paginatedProjects.length - 1
-                        ? "md:col-span-2"
-                        : ""
-                    }`}
+                    className="group min-w-0 h-full flex flex-col rounded-2xl p-4 bg-[var(--color-card)] border border-[var(--color-border)] transition-colors duration-300 hover:border-[var(--color-glass-border)]"
                   >
                     <motion.div
                       layout="position"
-                      className="relative overflow-hidden rounded-2xl mb-8 aspect-[4/3] bg-[var(--color-background)]"
+                      className="relative shrink-0 overflow-hidden rounded-xl mb-5 aspect-[4/3] bg-[var(--color-background)]"
                     >
                       <img
                         src={project.image}
@@ -269,12 +288,12 @@ export function Projects() {
                       </div>
                     </motion.div>
 
-                    <motion.div layout className="flex flex-col gap-3">
+                    <motion.div layout className="flex flex-1 flex-col gap-3">
                       <motion.div
                         layout
-                        className="flex items-center justify-between gap-4"
+                        className="flex min-h-16 flex-col items-start justify-start gap-2"
                       >
-                        <div className="flex items-center gap-3 flex-wrap">
+                        <div className="flex items-center gap-2 flex-wrap">
                           <span
                             className={`text-xs font-medium tracking-wider px-3 py-1 rounded-full ${getBadgeClasses(project.type)}`}
                           >
@@ -290,64 +309,30 @@ export function Projects() {
                             </motion.span>
                           )}
                         </div>
-                        <span className="text-xs font-mono text-[var(--color-muted)] tracking-wider px-2 py-1 bg-[var(--color-card)] rounded-md border border-white/5">
+                        <span className="text-[11px] font-mono text-[var(--color-muted)] px-2 py-1 bg-[var(--color-card)] rounded-md border border-[var(--color-border)]">
                           {getLocalizedValue(project.date, language)}
                         </span>
                       </motion.div>
 
                       <motion.h4
                         layout
-                        className="text-xl sm:text-2xl font-display font-medium tracking-tight group-hover:text-gray-300 transition-colors"
+                        title={project.title}
+                        className="line-clamp-2 text-lg sm:text-xl font-display font-medium leading-snug tracking-tight group-hover:text-[var(--color-primary)] transition-colors"
                       >
                         {project.title}
                       </motion.h4>
 
                       <motion.p
                         layout
-                        className="text-[var(--color-muted)] text-sm sm:text-base font-light leading-relaxed mb-1 max-w-xl"
+                        className="line-clamp-2 min-h-[3.25em] text-[var(--color-muted)] text-sm leading-relaxed mb-1"
                       >
                         {getLocalizedValue(project.description, language)}
                       </motion.p>
 
-                      <AnimatePresence>
-                        {isExpanded && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: "auto" }}
-                            exit={{ opacity: 0, height: 0 }}
-                            className="overflow-hidden"
-                          >
-                            <div className="flex flex-col gap-5 pt-3 pb-4">
-                              <p className="text-[var(--color-muted)] font-light leading-relaxed text-sm">
-                                {getLocalizedValue(
-                                  project.longDescription,
-                                  language,
-                                )}
-                              </p>
-                              <div className="flex flex-wrap gap-3">
-                                {project.links.map((link) => (
-                                  <a
-                                    key={link.url}
-                                    href={link.url}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className={`px-5 py-2.5 rounded-full text-xs font-medium transition-colors flex items-center gap-2 ${
-                                      link.kind === "code"
-                                        ? "bg-[var(--color-card)] border border-[var(--color-border)] text-[var(--color-foreground)] hover:bg-[var(--color-card-active)]"
-                                        : "bg-[var(--color-foreground)] text-[var(--color-background)] hover:bg-gray-200"
-                                    }`}
-                                  >
-                                    {getLinkIcon(link.kind, "w-4 h-4")}
-                                    {getLocalizedValue(link.label, language)}
-                                  </a>
-                                ))}
-                              </div>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-
-                      <motion.div layout className="flex flex-wrap gap-2 mt-2">
+                      <motion.div
+                        layout
+                        className="flex flex-wrap gap-2 mt-auto pt-2"
+                      >
                         {project.tech.map((techItem) => (
                           <div
                             key={techItem}
@@ -364,20 +349,12 @@ export function Projects() {
                       <motion.button
                         layout
                         type="button"
-                        onClick={() =>
-                          setExpandedProjectId(isExpanded ? null : project.id)
-                        }
-                        className="mt-5 w-fit flex items-center gap-2 px-4 py-2 rounded-full border border-white/5 bg-[var(--color-card)] text-xs font-medium tracking-widest uppercase text-[var(--color-foreground)]/70 group-hover:bg-[var(--color-foreground)] group-hover:text-[var(--color-background)] group-hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all duration-300"
+                        onClick={() => setExpandedProjectId(project.id)}
+                        aria-haspopup="dialog"
+                        className="mt-2 min-h-11 w-fit flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--color-border)] bg-[var(--color-card)] text-sm font-medium text-[var(--color-primary)] hover:bg-blue-500/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 transition-colors"
                       >
-                        {isExpanded
-                          ? t.projects.viewLess
-                          : t.projects.viewDetails}
-                        <motion.div
-                          animate={{ rotate: isExpanded ? 180 : 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <ChevronDown className="w-4 h-4" />
-                        </motion.div>
+                        {t.projects.readMore}
+                        <ArrowUpRight className="w-4 h-4" />
                       </motion.button>
                     </motion.div>
                   </motion.div>
@@ -387,12 +364,80 @@ export function Projects() {
           </motion.div>
         )}
 
+        <dialog
+          ref={detailsDialog}
+          onClose={() => setExpandedProjectId(null)}
+          aria-labelledby="project-details-title"
+          className="fixed inset-0 m-auto max-h-[85dvh] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-background)] p-6 text-[var(--color-foreground)] shadow-2xl backdrop:bg-black/60 sm:p-8"
+        >
+          {selectedProject && (
+            <>
+              <div className="sticky -top-6 z-10 -mx-6 -mt-6 mb-5 flex items-start justify-between gap-4 border-b border-[var(--color-border)] bg-[var(--color-background)] px-6 py-5 sm:-top-8 sm:-mx-8 sm:-mt-8 sm:px-8">
+                <h2
+                  id="project-details-title"
+                  className="font-display text-xl font-semibold sm:text-2xl"
+                >
+                  {selectedProject.title}
+                </h2>
+                <button
+                  type="button"
+                  autoFocus
+                  onClick={() => setExpandedProjectId(null)}
+                  aria-label={t.projects.closeDetails}
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--color-border)] hover:bg-[var(--color-card-active)]"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="mb-6 overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-card)]">
+                <img
+                  key={selectedProject.id}
+                  src={selectedProject.image}
+                  alt={selectedProject.title}
+                  className="block max-h-[40dvh] w-full object-contain"
+                />
+              </div>
+              <p className="text-sm leading-relaxed text-[var(--color-muted)]">
+                {getLocalizedValue(selectedProject.description, language)}
+              </p>
+              <p className="mt-4 text-sm leading-relaxed text-[var(--color-muted)]">
+                {getLocalizedValue(selectedProject.longDescription, language)}
+              </p>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {selectedProject.tech.map((tech) => (
+                  <span
+                    key={tech}
+                    className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] px-3 py-1.5 text-xs"
+                  >
+                    {getTechIcon(tech, "h-4 w-4 shrink-0")}
+                    {tech}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-6 flex flex-wrap gap-3">
+                {selectedProject.links.map((link) => (
+                  <a
+                    key={link.url}
+                    href={link.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+                  >
+                    {getLinkIcon(link.kind)}
+                    {getLocalizedValue(link.label, language)}
+                  </a>
+                ))}
+              </div>
+            </>
+          )}
+        </dialog>
+
         {totalPages > 1 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-16 pb-8"
+            className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-8"
           >
             <button
               type="button"

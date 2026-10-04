@@ -22,7 +22,11 @@ export function ThemeToggleButton({ theme, onToggle, size = "desktop" }) {
       )}
       aria-label="Toggle theme"
     >
-      {theme === "dark" ? <Sun size={iconSizes[size]} /> : <Moon size={iconSizes[size]} />}
+      {theme === "dark" ? (
+        <Sun size={iconSizes[size]} />
+      ) : (
+        <Moon size={iconSizes[size]} />
+      )}
     </button>
   );
 }

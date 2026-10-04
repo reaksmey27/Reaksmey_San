@@ -55,7 +55,9 @@ export function LanguageToggle({
               alt={option.name}
               className={cn("h-auto rounded-sm relative z-10", styles.flag)}
             />
-            <span className={cn("relative z-10", styles.label)}>{option.label}</span>
+            <span className={cn("relative z-10", styles.label)}>
+              {option.label}
+            </span>
           </button>
         );
       })}

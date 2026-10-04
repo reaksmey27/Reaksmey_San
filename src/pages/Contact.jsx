@@ -1,8 +1,15 @@
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { motion } from "motion/react";
-import { ArrowRight, Github, Mail } from "lucide-react";
-import { FaFacebookF } from "react-icons/fa";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Briefcase,
+  Github,
+  Mail,
+  MapPin,
+} from "lucide-react";
+import { FaFacebookF, FaTelegramPlane, FaTiktok } from "react-icons/fa";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { CONTACT_DETAILS, SECTION_IDS, SOCIAL_LINKS } from "../config/site";
 import { useLanguage } from "../context/LanguageContext";
@@ -63,6 +70,10 @@ const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY?.trim();
 
 function getSocialIcon(kind) {
   switch (kind) {
+    case "telegram":
+      return <FaTelegramPlane className="w-4 h-4" />;
+    case "tiktok":
+      return <FaTiktok className="w-4 h-4" />;
     case "facebook":
       return <FaFacebookF className="w-4 h-4" />;
     case "github":
@@ -79,7 +90,6 @@ export function Contact() {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [emailLocalPart, emailDomain] = CONTACT_DETAILS.email.split("@");
   const statusCopy = FORM_STATUS_COPY[language] ?? FORM_STATUS_COPY.en;
 
   function handleFieldChange(event) {
@@ -109,7 +119,9 @@ export function Contact() {
       message: formData.message.trim(),
     };
 
-    const hasEmptyField = Object.values(normalizedFormData).some((value) => !value);
+    const hasEmptyField = Object.values(normalizedFormData).some(
+      (value) => !value,
+    );
     if (hasEmptyField) {
       setFormStatus({ tone: "error", message: statusCopy.required });
       return;
@@ -139,7 +151,9 @@ export function Contact() {
       setFormStatus({
         tone: "error",
         message:
-          error instanceof Error && error.message ? error.message : statusCopy.error,
+          error instanceof Error && error.message
+            ? error.message
+            : statusCopy.error,
       });
     } finally {
       setIsSubmitting(false);
@@ -156,33 +170,71 @@ export function Contact() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16"
+          className="grid grid-cols-1 lg:grid-cols-2 items-start gap-x-10 gap-y-7 lg:gap-x-16"
         >
-          <div>
+          <div className="min-w-0 lg:col-span-2">
             <SectionHeading
               eyebrow={t.contact.titlePrefix}
               title={t.contact.headlineStart}
               highlight={t.contact.headlineEnd}
-              stacked
               titleClassName="text-3xl sm:text-4xl md:text-6xl leading-[0.95]"
             />
 
-            <p className="text-[var(--color-muted)] text-sm sm:text-base md:text-lg font-light leading-relaxed max-w-md mb-8">
+            <p className="text-[var(--color-muted)] text-sm sm:text-base leading-relaxed max-w-md">
               {t.contact.desc}
             </p>
+          </div>
 
-            <div className="flex flex-col gap-5">
+          <div className="min-w-0">
+            <div className="flex flex-col gap-3">
               <a
                 href={`mailto:${CONTACT_DETAILS.email}`}
-                className="group flex items-center gap-3 text-base md:text-lg font-light hover:opacity-70 transition-opacity w-fit"
+                className="group flex items-center gap-3 sm:gap-4 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] p-4 sm:p-5 transition-colors hover:border-blue-500/50 hover:bg-blue-500/5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
               >
-                <Mail className="w-5 h-5 text-[var(--color-muted)] group-hover:text-[var(--color-foreground)] transition-colors" />
-                {emailLocalPart}
-                <br className="sm:hidden" />@
-                {emailDomain}
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-[var(--color-primary)]">
+                  <Mail className="h-5 w-5" />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <h3 className="mb-1 text-sm font-semibold text-[var(--color-foreground)]">
+                    {t.contact.email}
+                  </h3>
+                  <p className="break-words text-sm leading-relaxed text-[var(--color-foreground)]/75 [overflow-wrap:anywhere]">
+                    {CONTACT_DETAILS.email}
+                  </p>
+                </div>
+                <ArrowUpRight className="hidden h-4 w-4 shrink-0 text-[var(--color-muted)] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 sm:block" />
               </a>
 
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-3">
+              <div className="grid gap-3">
+                <div className="flex items-start gap-3 sm:gap-4 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] p-4 sm:p-5">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-[var(--color-primary)]">
+                    <MapPin className="h-5 w-5" />
+                  </span>
+                  <div className="min-w-0">
+                    <h3 className="mb-1 text-sm font-semibold text-[var(--color-foreground)]">
+                      {t.contact.address}
+                    </h3>
+                    <address className="text-sm not-italic leading-relaxed text-[var(--color-foreground)]/75">
+                      {CONTACT_DETAILS.location}
+                    </address>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 sm:gap-4 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] p-4 sm:p-5">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-[var(--color-primary)]">
+                    <Briefcase className="h-5 w-5" />
+                  </span>
+                  <div className="min-w-0">
+                    <h3 className="mb-1 text-sm font-semibold text-[var(--color-foreground)]">
+                      {t.about.availabilityTitle}
+                    </h3>
+                    <p className="text-sm leading-relaxed text-[var(--color-foreground)]/75">
+                      {t.about.availabilityDesc}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-3 mt-3">
                 {SOCIAL_LINKS.map((socialLink) => (
                   <a
                     key={socialLink.href}
@@ -190,17 +242,22 @@ export function Contact() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={socialLink.label}
-                    className="flex h-10 w-10 items-center justify-center rounded-full glass transition-all hover:bg-[var(--color-foreground)] hover:text-[var(--color-background)]"
+                    className="inline-flex min-h-11 items-center justify-center gap-2.5 rounded-full border border-[var(--color-border)] px-4 py-2 text-sm font-medium transition-colors hover:border-blue-500/50 hover:bg-blue-500/5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
                   >
                     {getSocialIcon(socialLink.kind)}
+                    <span>{socialLink.label}</span>
+                    <ArrowUpRight className="h-3.5 w-3.5 text-[var(--color-muted)]" />
                   </a>
                 ))}
               </div>
             </div>
           </div>
 
-          <div className="glass p-5 sm:p-6 md:p-8 rounded-3xl relative overflow-hidden">
-            <form className="relative z-10 flex flex-col gap-5" onSubmit={handleSubmit}>
+          <div className="glass w-full max-w-md lg:justify-self-end p-4 sm:p-5 rounded-2xl relative overflow-hidden">
+            <form
+              className="relative z-10 flex flex-col gap-3.5"
+              onSubmit={handleSubmit}
+            >
               {FORM_FIELDS.map((field) => (
                 <div key={field.id} className="flex flex-col gap-2">
                   <label
@@ -219,7 +276,7 @@ export function Contact() {
                     autoComplete={field.autoComplete}
                     required
                     disabled={isSubmitting}
-                    className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-foreground)]/5 px-5 py-3.5 text-sm font-light text-[var(--color-foreground)] outline-none transition-colors placeholder:text-[var(--color-muted)] focus:border-[var(--color-glass-border)] disabled:cursor-not-allowed disabled:opacity-60 md:text-base"
+                    className="w-full min-h-11 rounded-xl border border-[var(--color-border)] bg-[var(--color-foreground)]/5 px-3.5 py-2.5 text-sm font-light text-[var(--color-foreground)] outline-none transition-colors placeholder:text-[var(--color-muted)] focus:border-[var(--color-glass-border)] disabled:cursor-not-allowed disabled:opacity-60"
                   />
                 </div>
               ))}
@@ -234,14 +291,14 @@ export function Contact() {
                 <textarea
                   id="message"
                   name="message"
-                  rows={4}
+                  rows={3}
                   value={formData.message}
                   onChange={handleFieldChange}
                   placeholder="Tell me about your project..."
                   autoComplete="off"
                   required
                   disabled={isSubmitting}
-                  className="w-full bg-[var(--color-foreground)]/5 border border-[var(--color-border)] rounded-xl px-5 py-3.5 outline-none focus:border-[var(--color-glass-border)] transition-colors font-light text-sm md:text-base text-[var(--color-foreground)] placeholder:text-[var(--color-muted)] resize-none disabled:cursor-not-allowed disabled:opacity-60"
+                  className="w-full bg-[var(--color-foreground)]/5 border border-[var(--color-border)] rounded-xl px-3.5 py-2.5 outline-none focus:border-[var(--color-glass-border)] transition-colors font-light text-sm text-[var(--color-foreground)] placeholder:text-[var(--color-muted)] resize-y disabled:cursor-not-allowed disabled:opacity-60"
                 />
               </div>
 
@@ -261,7 +318,7 @@ export function Contact() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-[var(--color-foreground)] text-[var(--color-background)] text-sm md:text-base font-medium py-3.5 rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2 mt-1 group disabled:cursor-not-allowed disabled:opacity-70"
+                className="w-full min-h-11 bg-[var(--color-foreground)] text-[var(--color-background)] text-sm font-medium py-2.5 rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2 mt-1 group disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {isSubmitting ? t.contact.sending : t.contact.send}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

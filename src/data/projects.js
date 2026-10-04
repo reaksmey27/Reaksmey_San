@@ -10,7 +10,7 @@ import pro9Image from "../assets/images/pro9.png";
 import pro10Image from "../assets/images/pro10.png";
 import pro11Image from "../assets/images/pro11.png";
 
-export const PROJECTS_PER_PAGE = 4;
+export const PROJECTS_PER_PAGE = 6;
 
 export const PROJECT_FILTERS = [
   { key: "all", label: { en: "All", km: "ទាំងអស់" } },
@@ -28,7 +28,7 @@ export const PROJECT_BADGE_CLASS_NAMES = {
 export const PROJECTS = [
   {
     id: 11,
-    title: "Student Leave Management System",
+    title: "Student Leave Management",
     type: "web",
     badge: { en: "Web Development", km: "អភិវឌ្ឍន៍វេបសាយ" },
     date: { en: "Jul 3 - 30 2026", km: "៣ - ៣០ កក្កដា ២០២៦" },
