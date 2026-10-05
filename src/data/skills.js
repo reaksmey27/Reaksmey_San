@@ -13,7 +13,7 @@ import {
   FaVuejs,
 } from "react-icons/fa";
 import { IoLogoJavascript } from "react-icons/io5";
-import { SiPostman, SiTailwindcss } from "react-icons/si";
+import { SiMysql, SiPostman, SiTailwindcss } from "react-icons/si";
 
 export const SKILL_CATEGORIES = [
   { key: "All", label: { en: "All", km: "ទាំងអស់" } },
@@ -110,6 +110,13 @@ export const SKILLS = [
     icon: FaPython,
     color: "#3776AB",
     percentage: 50,
+  },
+  {
+    name: "MySQL",
+    category: "Backend",
+    icon: SiMysql,
+    color: "#4479A1",
+    percentage: 60,
   },
   {
     name: "Figma",
