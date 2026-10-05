@@ -1,6 +1,9 @@
 import { test, expect } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
+  await page.route("**/api/telegram", (route) =>
+    route.fulfill({ status: 204 }),
+  );
   await page.route("https://api.emailjs.com/**", (route) => route.abort());
   await page.addInitScript(() => {
     localStorage.setItem("smey-portfolio-language", "en");
@@ -98,6 +101,12 @@ async function fillForm(page) {
 test("contact success sends trimmed values and clears the form", async ({
   page,
 }) => {
+  let alertSent = false;
+  await page.route("**/api/telegram", async (route) => {
+    expect(route.request().postDataJSON().email).toBe("test@example.com");
+    alertSent = true;
+    await route.fulfill({ status: 200, json: { ok: true } });
+  });
   await page.route("https://api.emailjs.com/**", async (route) => {
     const payload = route.request().postDataJSON();
     expect(payload.template_params.reply_to).toBe("test@example.com");
@@ -110,11 +119,32 @@ test("contact success sends trimmed values and clears the form", async ({
   await page.getByRole("button", { name: "Send Message" }).click();
   await expect(page.getByRole("status")).toContainText("successfully");
   await expect(page.getByLabel("Message", { exact: true })).toHaveValue("");
+  expect(alertSent).toBe(true);
+});
+
+test("Telegram failure does not turn a delivered email into an error", async ({
+  page,
+}) => {
+  await page.route("https://api.emailjs.com/**", (route) =>
+    route.fulfill({ status: 200, body: "OK" }),
+  );
+  await page.route("**/api/telegram", (route) =>
+    route.fulfill({ status: 502 }),
+  );
+  await fillForm(page);
+  await page.getByRole("button", { name: "Send Message" }).click();
+  await expect(page.getByRole("status")).toContainText("successfully");
+  await expect(page.getByLabel("Message", { exact: true })).toHaveValue("");
 });
 
 test("contact failure preserves message and permits retry", async ({
   page,
 }) => {
+  let alerts = 0;
+  await page.route("**/api/telegram", (route) => {
+    alerts++;
+    return route.abort();
+  });
   await page.route("https://api.emailjs.com/**", (route) =>
     route.fulfill({ status: 500, body: "Server error" }),
   );
@@ -125,6 +155,7 @@ test("contact failure preserves message and permits retry", async ({
   await expect(
     page.getByRole("button", { name: "Send Message" }),
   ).toBeEnabled();
+  expect(alerts).toBe(0);
 });
 
 test("whitespace-only message never sends", async ({ page }) => {

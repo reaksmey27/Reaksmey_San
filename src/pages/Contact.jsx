@@ -156,6 +156,21 @@ export function Contact() {
         },
       );
 
+      // Telegram is supplementary: a failed alert must not ask visitors to
+      // resend an email that was already delivered.
+      try {
+        const alertResponse = await fetch("/api/telegram", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(normalizedFormData),
+          signal: AbortSignal.timeout(10000),
+        });
+        if (!alertResponse.ok)
+          console.warn("Telegram notification unavailable");
+      } catch {
+        console.warn("Telegram notification unavailable");
+      }
+
       setFormData(INITIAL_FORM_DATA);
       setFormStatus({ tone: "success", message: statusCopy.success });
     } catch {
