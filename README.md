@@ -56,11 +56,14 @@ If any EmailJS value is missing, the site will show a message telling visitors t
 The replacement EmailJS notification is in `email-templates/contact.html`. Paste its HTML into the existing EmailJS template's code editor and save it. This repository file does not update the hosted EmailJS template automatically.
 
 - Subject: `New portfolio inquiry: {{subject}}`
-- From Name: `SMEY Portfolio`
+- From Name: `{{name}} via SMEY Portfolio`
+- To Email: `reaksmeysan.official@gmail.com`
+- From Email: enable the default email address of your connected service
 - Reply-To: `{{reply_to}}`
-- Keep your existing recipient and connected sender address.
+- Cc and Bcc: leave empty
+- Keep your existing Template ID, which is already configured in Vercel.
 
-The design uses the form's existing `name`, `email`, `subject`, and `message` variables. Double-brace variables escape submitted HTML. The message preserves line breaks, and the layout does not depend on a remote profile image.
+The design uses the form's `name`, `email`, `subject`, `time`, and `message` variables. The submission time uses UTC+07:00. The form also sends `title` as an alias of `subject` for EmailJS's pre-built Contact Us template. Double-brace variables escape submitted HTML. The message preserves line breaks, and the layout does not depend on a remote profile image.
 
 ## Browser checks
 

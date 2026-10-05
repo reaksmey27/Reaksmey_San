@@ -143,6 +143,12 @@ export function Contact() {
           email: normalizedFormData.email,
           reply_to: normalizedFormData.email,
           subject: normalizedFormData.subject,
+          title: normalizedFormData.subject,
+          time: `${new Intl.DateTimeFormat("en-GB", {
+            timeZone: "Asia/Bangkok",
+            dateStyle: "medium",
+            timeStyle: "short",
+          }).format(new Date())} (UTC+07:00)`,
           message: normalizedFormData.message,
         },
         {

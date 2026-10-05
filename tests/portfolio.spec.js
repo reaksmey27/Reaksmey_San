@@ -101,6 +101,9 @@ test("contact success sends trimmed values and clears the form", async ({
   await page.route("https://api.emailjs.com/**", async (route) => {
     const payload = route.request().postDataJSON();
     expect(payload.template_params.reply_to).toBe("test@example.com");
+    expect(payload.template_params.name).toBe("Portfolio Test");
+    expect(payload.template_params.title).toBe(payload.template_params.subject);
+    expect(payload.template_params.time).toMatch(/\(UTC\+07:00\)$/);
     await route.fulfill({ status: 200, body: "OK" });
   });
   await fillForm(page);
