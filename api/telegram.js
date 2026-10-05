@@ -1,3 +1,5 @@
+import { languageKeyboard } from "../server/telegram-language.js";
+
 // Vercel Node.js function. These secrets must never use the VITE_ prefix.
 const attempts = new Map();
 
@@ -58,16 +60,40 @@ export default async function handler(req, res) {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date());
-  const header = `New portfolio message\n\nName: ${data.name}\nEmail: ${data.email}\nSubject: ${data.subject}\nReceived: ${time} (UTC+07:00)\n\n`;
-  const suffix = "\n\n[Message shortened. Full message is in your email.]";
+  // Explicit entities style only our labels; visitor text remains literal.
+  let header = "";
+  const entities = [];
+  function append(value, type) {
+    if (type)
+      entities.push({ type, offset: header.length, length: value.length });
+    header += value;
+  }
+  append("📩 សារទំនាក់ទំនងថ្មី | New contact message", "bold");
+  append("\nSMEY Portfolio\n\n");
+  append("ពី / From: ", "bold");
+  append(data.name.replace(/[\r\n]+/g, " "));
+  append("\nអ៊ីមែល / Email: ", "bold");
+  append(data.email, "email");
+  append("\n\nប្រធានបទ / Subject\n", "bold");
+  append(data.subject.replace(/[\r\n]+/g, " "));
+  append("\n\nសារ / Message\n", "bold");
+  const footer = `\n\n🕒 ទទួលបាន / Received: ${time}\nម៉ោងកម្ពុជា / Cambodia (UTC+07:00)`;
+  const suffix =
+    "\n\n[សារត្រូវបានកាត់ខ្លី។ សូមអានសារពេញក្នុងអ៊ីមែល។]\n[Message shortened. Full message is in your email.]";
   const text =
-    header.length + data.message.length <= 4096
-      ? header + data.message
+    header.length + data.message.length + footer.length <= 4096
+      ? header + data.message + footer
       : header +
         data.message
-          .slice(0, 4096 - header.length - suffix.length)
+          .slice(0, 4096 - header.length - suffix.length - footer.length)
           .replace(/[\uD800-\uDBFF]$/, "") +
-        suffix;
+        suffix +
+        footer;
+  entities.push({
+    type: "italic",
+    offset: text.length - footer.length + 2,
+    length: footer.length - 2,
+  });
 
   try {
     const response = await fetch(
@@ -78,6 +104,8 @@ export default async function handler(req, res) {
         body: JSON.stringify({
           chat_id: chatId,
           text,
+          entities,
+          reply_markup: languageKeyboard(),
           link_preview_options: { is_disabled: true },
         }),
         signal: AbortSignal.timeout(8000),

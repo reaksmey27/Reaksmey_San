@@ -81,6 +81,20 @@ The endpoint validates input, rejects cross-origin browser requests, uses plain 
 
 Run `node --test server-tests/telegram.test.mjs` for server checks. Browser tests mock both EmailJS and Telegram; no real notifications are sent.
 
+## Telegram language buttons
+
+New alerts include **English**, **ខ្មែរ**, and **EN / ខ្មែរ** buttons. These change the labels of that alert; submitted messages are not translated, and the default for new alerts stays bilingual. Old alerts do not gain buttons automatically.
+
+After deploying, connect the button webhook once from your project folder:
+
+```sh
+node scripts/setup-telegram-webhook.mjs https://smey-dev.site
+```
+
+The script reads `TELEGRAM_BOT_TOKEN` privately from `.env`; it must match Vercel. It registers `/api/telegram-webhook` with a derived secret so only authenticated Telegram callbacks can edit alerts in your configured private chat. No extra environment variable is required. Re-run after changing the bot token or domain. Telegram must be able to access the deployment without Vercel login protection. This replaces any existing webhook for this bot; `getUpdates` cannot be used while the webhook is active. See the [Telegram webhook API](https://core.telegram.org/bots/api#setwebhook).
+
+Send a new contact message after deploying, then tap each button to verify. Local automated tests mock these calls and do not register a webhook or send messages.
+
 ## Running browser checks
 
 Run `npx playwright install chromium` once if Chromium is not installed, then `npm run test:e2e`. Tests start local Vite servers on ports 5174 and 5175. EmailJS requests are intercepted: these checks never send real emails or use hosted credentials.
