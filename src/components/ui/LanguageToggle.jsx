@@ -32,6 +32,8 @@ export function LanguageToggle({
           <button
             key={option.value}
             type="button"
+            aria-label={option.name}
+            aria-pressed={isActive}
             onClick={() => onChange(option.value)}
             className={cn(
               "relative z-10 flex items-center justify-center gap-1.5 font-bold uppercase transition-colors duration-300",

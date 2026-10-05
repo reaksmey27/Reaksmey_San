@@ -7,7 +7,7 @@ export function About() {
   const { t } = useLanguage();
 
   return (
-    <section className="pt-32 pb-24 relative" id={SECTION_IDS.about}>
+    <section className="py-24 relative" id={SECTION_IDS.about}>
       <div className="w-full max-w-6xl mx-auto px-8 md:px-12 lg:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <motion.div
@@ -21,6 +21,8 @@ export function About() {
               <img
                 src={PROFILE_ASSETS.aboutImage}
                 alt="Reaksmey Portrait"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-background)]/80 via-transparent to-transparent" />
@@ -43,11 +45,11 @@ export function About() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="flex flex-col max-w-xl mx-auto lg:mx-0"
+            className="min-w-0 flex flex-col max-w-xl mx-auto lg:mx-0"
           >
             <h4 className="text-blue-500 font-bold uppercase tracking-widest text-xs md:text-sm mb-3">
               {t.about.biography}

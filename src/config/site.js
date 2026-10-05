@@ -36,8 +36,8 @@ export const SECTION_IDS = {
 };
 
 export const PROFILE_ASSETS = {
-  heroImage: new URL("../assets/images/hero.png", import.meta.url).href,
-  aboutImage: new URL("../assets/images/about.png", import.meta.url).href,
+  heroImage: new URL("../assets/images/hero.webp", import.meta.url).href,
+  aboutImage: new URL("../assets/images/about.webp", import.meta.url).href,
 };
 
 export const CONTACT_DETAILS = {

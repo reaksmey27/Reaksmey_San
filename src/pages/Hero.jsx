@@ -32,7 +32,7 @@ export function Hero() {
               {t.hero.welcome}
             </h3>
 
-            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-[60px] font-display font-bold leading-[1.1] mb-4 whitespace-nowrap">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-[48px] font-display font-bold leading-tight mb-4 break-words">
               {t.hero.hi} <span className="text-blue-500">REAKSMEY</span>
               <br />
               <span className="text-[var(--color-foreground)]">

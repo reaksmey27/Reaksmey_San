@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useState } from "react";
-import { AnimatePresence } from "motion/react";
+import { AnimatePresence, MotionConfig } from "motion/react";
 import { CustomCursor } from "./components/ui/CustomCursor";
 import { PageLoader } from "./components/ui/PageLoader";
 import { Navbar } from "./components/layout/Navbar";
@@ -31,7 +31,7 @@ export default function App() {
   }, []);
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <AnimatePresence>{isLoading ? <PageLoader /> : null}</AnimatePresence>
 
       <div className="relative min-h-screen bg-[var(--color-background)] text-[var(--color-foreground)] selection:bg-white/30">
@@ -50,6 +50,6 @@ export default function App() {
 
         <Footer />
       </div>
-    </>
+    </MotionConfig>
   );
 }

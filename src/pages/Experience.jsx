@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+﻿import { motion } from "motion/react";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { SECTION_IDS } from "../config/site";
 import { useLanguage } from "../context/LanguageContext";
@@ -9,73 +9,88 @@ export function Experience() {
 
   return (
     <section
-      className="pt-10 pb-20 bg-[var(--color-background)]"
+      className="py-24 bg-[var(--color-background)]"
       id={SECTION_IDS.experience}
     >
-      <div className="container mx-auto px-6 max-w-4xl">
+      <div className="container mx-auto px-6 max-w-6xl">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-16 md:mb-24"
+          className="mb-10 sm:mb-12"
         >
           <SectionHeading
             eyebrow={t.experience.titlePrefix}
             title={t.experience.headlineStart}
             highlight={t.experience.headlineEnd}
-            centered
             titleClassName="text-3xl sm:text-4xl md:text-5xl"
           />
         </motion.div>
 
-        <div className="relative pl-4 md:pl-0">
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[1px] bg-[var(--color-card-active)] -translate-x-1/2" />
-
-          <div className="flex flex-col gap-12 md:gap-24">
-            {EXPERIENCES.map((experience, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6 }}
-                className={`relative flex flex-col md:flex-row items-center justify-between group ${
-                  index % 2 === 0 ? "md:flex-row-reverse" : ""
-                }`}
+        <div>
+          {EXPERIENCES.map((experience, index) => (
+            <motion.article
+              key={experience.roleKey}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35 }}
+              className="grid grid-cols-[40px_minmax(0,1fr)] gap-x-4 pb-8 last:pb-0 md:grid-cols-[minmax(0,1fr)_64px_minmax(0,1fr)] md:gap-x-6"
+            >
+              <div
+                className="relative col-start-1 row-start-1 flex justify-center md:col-start-2"
+                aria-hidden="true"
               >
-                <div className="absolute left-[-21px] z-10 h-3 w-3 rounded-full bg-[var(--color-foreground)] shadow-[0_0_15px_rgba(255,255,255,0.5)] transition-all duration-300 md:left-1/2 md:-translate-x-1/2 md:shadow-none md:group-hover:scale-150 md:group-hover:bg-[var(--color-foreground)] md:group-hover:shadow-[0_0_15px_rgba(255,255,255,0.5)]" />
+                {index < EXPERIENCES.length - 1 && (
+                  <span className="absolute top-8 -bottom-16 border-l-2 border-dashed border-blue-500/35" />
+                )}
+                <span className="relative z-10 mt-6 flex h-10 w-10 items-center justify-center rounded-full border-4 border-[var(--color-background)] bg-blue-600 text-xs font-bold text-white ring-1 ring-blue-500/30 md:h-12 md:w-12 md:text-sm">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+              </div>
 
-                <div className="md:hidden absolute left-[-16px] top-4 bottom-[-48px] w-[1px] bg-[var(--color-card-active)]" />
-
-                <div className="w-full md:w-[45%] flex flex-col justify-center">
-                  <div
-                    className={`p-6 sm:p-8 glass rounded-2xl hover:bg-[var(--color-card)] transition-colors ${index % 2 === 0 ? "md:text-left" : "md:text-left"}`}
-                  >
+              <div
+                className={`relative col-start-2 row-start-1 min-w-0 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] p-5 sm:p-6 ${index % 2 === 0 ? "md:col-start-1" : "md:col-start-3"}`}
+              >
+                <span
+                  aria-hidden="true"
+                  className={`absolute top-11 -left-4 w-4 border-t-2 border-dashed border-blue-500/35 md:top-12 md:w-8 ${index % 2 === 0 ? "md:left-auto md:-right-8" : "md:-left-8"}`}
+                />
+                <div className="mb-5 flex items-center gap-3">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-[var(--color-primary)]">
+                    <experience.icon className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-[var(--color-primary)]">
+                      {t.experience[experience.typeKey]}
+                    </p>
                     {experience.period && (
-                      <div className="flex items-center gap-4 mb-2">
-                        <span className="text-xs font-mono uppercase tracking-widest text-[#FF6321]">
-                          {experience.period}
-                        </span>
-                      </div>
-                    )}
-                    <h4 className="text-xl sm:text-2xl font-display font-medium tracking-tight mb-1">
-                      {t.experience[experience.roleKey]}
-                    </h4>
-                    <h5 className="text-base sm:text-lg font-light text-[var(--color-foreground)]/70 mb-4">
-                      {t.experience[experience.companyKey]}
-                    </h5>
-                    {experience.descriptionKey && (
-                      <p className="text-[var(--color-muted)] font-light leading-relaxed text-sm lg:text-base">
-                        {t.experience[experience.descriptionKey]}
+                      <p className="mt-1 text-xs leading-relaxed text-[var(--color-muted)]">
+                        {experience.period}
                       </p>
                     )}
                   </div>
                 </div>
-
-                <div className="hidden md:block w-[45%]" />
-              </motion.div>
-            ))}
-          </div>
+                <h4 className="text-lg sm:text-xl font-display font-semibold leading-snug text-[var(--color-foreground)]">
+                  {t.experience[experience.roleKey]}
+                </h4>
+                <p className="mt-2 text-sm font-medium text-[var(--color-foreground)]/75">
+                  {t.experience[experience.companyKey]}
+                </p>
+                {experience.highlightsKey ? (
+                  <ul className="mt-4 list-disc space-y-2 pl-4 text-sm leading-relaxed text-[var(--color-muted)] marker:text-[var(--color-primary)]">
+                    {t.experience[experience.highlightsKey].map((highlight) => (
+                      <li key={highlight}>{highlight}</li>
+                    ))}
+                  </ul>
+                ) : experience.descriptionKey ? (
+                  <p className="mt-4 text-sm leading-relaxed text-[var(--color-muted)]">
+                    {t.experience[experience.descriptionKey]}
+                  </p>
+                ) : null}
+              </div>
+            </motion.article>
+          ))}
         </div>
       </div>
     </section>

@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { DEFAULT_LANGUAGE, STORAGE_KEYS } from "../config/site";
 import { translations } from "../content/translations";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
@@ -11,6 +11,9 @@ export function LanguageProvider({ children }) {
     DEFAULT_LANGUAGE,
   );
   const resolvedLanguage = translations[language] ? language : DEFAULT_LANGUAGE;
+  useEffect(() => {
+    document.documentElement.lang = resolvedLanguage;
+  }, [resolvedLanguage]);
 
   const value = {
     language: resolvedLanguage,

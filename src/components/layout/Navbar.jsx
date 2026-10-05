@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { cn } from "../../utils/cn";
 import { Menu, X } from "lucide-react";
@@ -16,6 +16,45 @@ export function Navbar() {
   const { t, language, setLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const navLinks = getNavigationLinks(t.nav);
+  const menuButton = useRef(null);
+  const mobileMenu = useRef(null);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setMobileMenuOpen(false);
+        menuButton.current?.focus();
+      }
+      if (event.key === "Tab") {
+        const targets = [
+          menuButton.current,
+          ...mobileMenu.current.querySelectorAll("a[href]"),
+        ];
+        const first = targets[0];
+        const last = targets.at(-1);
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    };
+    const onResize = () => {
+      if (window.innerWidth >= 1280) setMobileMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("resize", onResize);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,7 +101,7 @@ export function Navbar() {
           </a>
 
           {/* Desktop Nav */}
-          <ul className="hidden md:flex flex-1 items-center justify-center gap-5 lg:gap-7 xl:gap-8 min-w-0">
+          <ul className="hidden xl:flex flex-1 items-center justify-center gap-5 min-w-0">
             {navLinks.map((link) => (
               <li key={link.id}>
                 <a
@@ -80,7 +119,7 @@ export function Navbar() {
             ))}
           </ul>
 
-          <div className="hidden md:flex shrink-0 items-center gap-3 lg:gap-4 border-l border-[var(--color-border)] pl-4 lg:pl-6 ml-2">
+          <div className="hidden xl:flex shrink-0 items-center gap-3 border-l border-[var(--color-border)] pl-4 ml-2">
             <ThemeToggleButton theme={theme} onToggle={toggleTheme} />
             <LanguageToggle
               language={language}
@@ -95,7 +134,7 @@ export function Navbar() {
             </a>
           </div>
 
-          <div className="flex md:hidden shrink-0 items-center gap-2 sm:gap-3 z-50">
+          <div className="flex xl:hidden shrink-0 items-center gap-2 sm:gap-3 z-50">
             <ThemeToggleButton
               theme={theme}
               onToggle={toggleTheme}
@@ -108,6 +147,10 @@ export function Navbar() {
               layoutId="mobile-lang-bg"
             />
             <button
+              ref={menuButton}
+              aria-label={mobileMenuOpen ? t.nav.closeMenu : t.nav.openMenu}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation"
               type="button"
               className="text-[var(--color-foreground)] bg-[var(--color-card)] p-1.5 rounded-full border border-[var(--color-border)]"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -119,6 +162,10 @@ export function Navbar() {
       </div>
 
       <motion.div
+        ref={mobileMenu}
+        id="mobile-navigation"
+        inert={!mobileMenuOpen}
+        aria-hidden={!mobileMenuOpen}
         initial={false}
         animate={mobileMenuOpen ? "open" : "closed"}
         variants={{

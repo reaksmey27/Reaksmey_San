@@ -8,6 +8,8 @@ A personal portfolio built with React, Vite, Tailwind CSS, and Motion.
 - `npm run build` creates the production build
 - `npm run preview` serves the production build locally
 - `npm run clean` removes the `dist` folder
+- `npm run test:e2e` checks mobile/tablet/desktop layouts, project dialogs, CV downloads, and contact form behavior in Chromium
+- `npm run images:optimize` regenerates WebP assets from the original PNGs using Sharp
 
 ## Project Structure
 
@@ -48,3 +50,22 @@ Suggested EmailJS template variables for this form:
 - `{{message}}`
 
 If any EmailJS value is missing, the site will show a message telling visitors to email directly instead.
+
+## Contact notification design
+
+The replacement EmailJS notification is in `email-templates/contact.html`. Paste its HTML into the existing EmailJS template's code editor and save it. This repository file does not update the hosted EmailJS template automatically.
+
+- Subject: `New portfolio inquiry: {{subject}}`
+- From Name: `SMEY Portfolio`
+- Reply-To: `{{reply_to}}`
+- Keep your existing recipient and connected sender address.
+
+The design uses the form's existing `name`, `email`, `subject`, and `message` variables. Double-brace variables escape submitted HTML. The message preserves line breaks, and the layout does not depend on a remote profile image.
+
+## Browser checks
+
+Run `npx playwright install chromium` once if Chromium is not installed, then `npm run test:e2e`. Tests start local Vite servers on ports 5174 and 5175. EmailJS requests are intercepted: these checks never send real emails or use hosted credentials.
+
+To verify delivery on the deployed site, submit a message there and confirm it reaches the configured inbox. Configure the EmailJS template's reply-to field to use `{{reply_to}}`. Hosted environment variables must be present when building the site.
+
+Keep the original PNGs when replacing screenshots, then run `npm run images:optimize` to update the WebP files used by the app.

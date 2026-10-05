@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "format": "prettier --write .",
+    "images:optimize": "node scripts/optimize-images.mjs",
+    "test:e2e": "playwright test",
     "format:check": "prettier --check .",
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",
@@ -29,8 +31,10 @@
     "vite": "^6.2.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "autoprefixer": "^10.4.21",
     "prettier": "^3.9.9",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4.1.14",
     "vite": "^6.2.0"
   }

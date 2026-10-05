@@ -1,14 +1,14 @@
-import pro1Image from "../assets/images/pro1.png";
-import pro2Image from "../assets/images/pro2.png";
-import pro3Image from "../assets/images/pro3.png";
-import pro4Image from "../assets/images/pro4.png";
-import pro5Image from "../assets/images/pro5.png";
-import pro6Image from "../assets/images/Pro6.png";
-import pro7Image from "../assets/images/pro7.png";
-import pro8Image from "../assets/images/pro8.png";
-import pro9Image from "../assets/images/pro9.png";
-import pro10Image from "../assets/images/pro10.png";
-import pro11Image from "../assets/images/pro11.png";
+import pro1Image from "../assets/images/pro1.webp";
+import pro2Image from "../assets/images/pro2.webp";
+import pro3Image from "../assets/images/pro3.webp";
+import pro4Image from "../assets/images/pro4.webp";
+import pro5Image from "../assets/images/pro5.webp";
+import pro6Image from "../assets/images/Pro6.webp";
+import pro7Image from "../assets/images/pro7.webp";
+import pro8Image from "../assets/images/pro8.webp";
+import pro9Image from "../assets/images/pro9.webp";
+import pro10Image from "../assets/images/pro10.webp";
+import pro11Image from "../assets/images/pro11.webp";
 
 export const PROJECTS_PER_PAGE = 6;
 
@@ -37,8 +37,8 @@ export const PROJECTS = [
       km: "ប្រព័ន្ធគ្រប់គ្រងច្បាប់ឈប់សម្រាកសិស្ស ជាមួយផ្ទាំងគ្រប់គ្រងសម្រាប់តាមដានសំណើសុំច្បាប់ ការអនុម័ត និងស្ថានភាពជាក់ស្តែង បង្កើតឡើងដោយ Vue.js និង Laravel។",
     },
     longDescription: {
-      en: "Built leave request dashboards with REST API integration, covering pending, under review, approved, and rejected requests. Collaborated with the team via Git and GitHub throughout development.",
-      km: "បង្កើតផ្ទាំងគ្រប់គ្រងសំណើសុំច្បាប់ជាមួយការភ្ជាប់ REST API គ្របដណ្តប់សំណើដែលកំពុងរង់ចាំ កំពុងពិនិត្យ អនុម័ត និងបដិសេធ។ សហការជាមួយក្រុមការងារតាមរយៈ Git និង GitHub ពេញមួយដំណើរការអភិវឌ្ឍន៍។",
+      en: "My contribution: built leave request dashboards and connected them to REST APIs, collaborating through Git and GitHub. The dashboard brings pending, under-review, approved, and rejected requests into one place so staff can follow each request's status.",
+      km: "ការចូលរួមរបស់ខ្ញុំ៖ បង្កើតផ្ទាំងគ្រប់គ្រងសំណើសុំច្បាប់ និងភ្ជាប់ REST API ដោយសហការតាម Git និង GitHub។ ផ្ទាំងនេះប្រមូលសំណើដែលកំពុងរង់ចាំ កំពុងពិនិត្យ អនុម័ត និងបដិសេធក្នុងកន្លែងតែមួយ ដើម្បីឱ្យបុគ្គលិកតាមដានស្ថានភាពបាន។",
     },
     tech: ["Vue.js", "Laravel", "MySQL", "GitHub", "Postman"],
     image: pro11Image,
@@ -62,8 +62,8 @@ export const PROJECTS = [
       km: "ប្រព័ន្ធលក់ស្បែកជើងកីឡាតាមអនឡាញពេញលេញ ដែលមានទាំងវេបសាយសម្រាប់អតិថិជន និងផ្ទាំងគ្រប់គ្រង Admin សាងសង់ដោយ Vue.js និង Laravel។",
     },
     longDescription: {
-      en: "Built user and admin panels for a sneaker e-commerce system using Vue.js and Laravel. Implemented product management features with a responsive, user-friendly interface.",
-      km: "បង្កើតទាំងផ្ទាំងអតិថិជន និងផ្ទាំង Admin សម្រាប់ប្រព័ន្ធលក់ស្បែកជើងកីឡាតាមអនឡាញ ដោយប្រើ Vue.js និង Laravel។ អនុវត្តមុខងារគ្រប់គ្រងផលិតផល ជាមួយផ្ទៃមុខឆ្លើយតបល្អ និងងាយស្រួលប្រើ។",
+      en: "My contribution: built the customer storefront and admin panels with Vue.js and Laravel, including product management. Customers can explore the sneaker catalog while administrators manage products through a separate interface.",
+      km: "ការចូលរួមរបស់ខ្ញុំ៖ បង្កើតផ្ទាំងអតិថិជន និងផ្ទាំង Admin ជាមួយ Vue.js និង Laravel រួមទាំងការគ្រប់គ្រងផលិតផល។ អតិថិជនអាចមើលកាតាឡុកស្បែកជើង ខណៈអ្នកគ្រប់គ្រងអាចគ្រប់គ្រងផលិតផលតាមផ្ទាំងដាច់ដោយឡែក។",
     },
     tech: ["Vue.js", "Laravel", "MySQL", "GitHub", "Postman"],
     image: pro10Image,
@@ -92,8 +92,8 @@ export const PROJECTS = [
       km: "ផ្ទៃមុខអនឡាញលក់ស្បែកជើងកីឡាទំនើប និងឆ្លើយតបបានល្អ ដែលបានរចនាជាគម្រោងផ្ទាល់ខ្លួន UX/UI។",
     },
     longDescription: {
-      en: "Designed a modern, responsive sneaker e-commerce interface. Created reusable UI components and interactive prototypes.",
-      km: "រចនាផ្ទៃមុខអនឡាញលក់ស្បែកជើងកីឡាទំនើប និងឆ្លើយតបបានល្អ។ បង្កើត UI components ដែលអាចប្រើឡើងវិញបាន និងគំរូអន្តរកម្ម។",
+      en: "My contribution: designed the sneaker shop interface in Figma, creating reusable components and an interactive prototype. The prototype demonstrates the proposed shopping experience before development.",
+      km: "ការចូលរួមរបស់ខ្ញុំ៖ រចនាផ្ទៃមុខហាងស្បែកជើងក្នុង Figma ដោយបង្កើតសមាសភាគដែលអាចប្រើឡើងវិញ និងគំរូអន្តរកម្ម។ គំរូនេះបង្ហាញបទពិសោធន៍ទិញទំនិញមុនពេលអភិវឌ្ឍ។",
     },
     tech: ["Figma"],
     image: pro9Image,

@@ -157,7 +157,7 @@ export function Projects() {
   );
 
   return (
-    <section className="pt-24 pb-10 relative" id={SECTION_IDS.work}>
+    <section className="py-24 relative" id={SECTION_IDS.work}>
       <div className="container mx-auto px-6 max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -169,7 +169,7 @@ export function Projects() {
             eyebrow={t.projects.titlePrefix}
             title={t.projects.headlineStart}
             highlight={t.projects.headlineEnd}
-            className="text-center md:text-left"
+            className="text-left"
             titleClassName="text-3xl sm:text-4xl md:text-5xl"
           />
           <div className="self-center md:self-auto px-4 py-2 rounded-full border border-[var(--color-border)] bg-[var(--color-card)] text-xs sm:text-sm uppercase tracking-[0.2em] text-[var(--color-muted)]">
@@ -189,6 +189,7 @@ export function Projects() {
               key={filter.key}
               type="button"
               onClick={() => setActiveFilter(filter.key)}
+              aria-pressed={activeFilter === filter.key}
               className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
                 activeFilter === filter.key
                   ? "bg-[var(--color-foreground)] text-[var(--color-background)] shadow-[0_0_20px_rgba(255,255,255,0.2)]"
@@ -443,6 +444,7 @@ export function Projects() {
               type="button"
               onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
               disabled={currentPage === 1}
+              aria-label={t.projects.previousPage}
               className="p-2 sm:p-2.5 rounded-full border border-[var(--color-border)] bg-[var(--color-card)] text-[var(--color-foreground)]/70 hover:bg-[var(--color-card-active)] hover:text-[var(--color-foreground)] hover:scale-110 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-[var(--color-card)] disabled:hover:text-[var(--color-foreground)]/70 transition-all duration-300"
             >
               <ChevronLeft className="w-5 h-5" />
@@ -453,6 +455,8 @@ export function Projects() {
                   key={index}
                   type="button"
                   onClick={() => setCurrentPage(index + 1)}
+                  aria-label={`${t.projects.page} ${index + 1}`}
+                  aria-current={currentPage === index + 1 ? "page" : undefined}
                   className={`w-10 h-10 rounded-full text-sm font-bold transition-all duration-300 flex items-center justify-center ${
                     currentPage === index + 1
                       ? "bg-blue-500 text-[var(--color-foreground)] shadow-[0_0_24px_rgba(59,130,246,0.5)] scale-110 border border-blue-400"
@@ -469,6 +473,7 @@ export function Projects() {
                 setCurrentPage((page) => Math.min(totalPages, page + 1))
               }
               disabled={currentPage === totalPages}
+              aria-label={t.projects.nextPage}
               className="p-2 sm:p-2.5 rounded-full border border-[var(--color-border)] bg-[var(--color-card)] text-[var(--color-foreground)]/70 hover:bg-[var(--color-card-active)] hover:text-[var(--color-foreground)] hover:scale-110 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-[var(--color-card)] disabled:hover:text-[var(--color-foreground)]/70 transition-all duration-300"
             >
               <ChevronRight className="w-5 h-5" />

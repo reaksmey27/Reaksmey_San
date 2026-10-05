@@ -52,7 +52,7 @@ const FORM_STATUS_COPY = {
     error:
       "Something went wrong while sending your message. Please try again or email me directly.",
     configError:
-      "EmailJS is not configured yet. Please email me directly for now.",
+      "Online messaging is temporarily unavailable. Please email me directly.",
   },
   km: {
     required: "សូមបំពេញព័ត៌មានទាំងអស់ មុនពេលផ្ញើសារ។",
@@ -60,13 +60,16 @@ const FORM_STATUS_COPY = {
     error:
       "មានបញ្ហាក្នុងការផ្ញើសារ។ សូមព្យាយាមម្តងទៀត ឬផ្ញើអ៊ីមែលមកខ្ញុំដោយផ្ទាល់។",
     configError:
-      "EmailJS មិនទាន់បានកំណត់រចនាសម្ព័ន្ធទេ។ សូមផ្ញើអ៊ីមែលមកខ្ញុំដោយផ្ទាល់សិន។",
+      "ការផ្ញើសារតាមទម្រង់មិនទាន់អាចប្រើបានទេ។ សូមផ្ញើអ៊ីមែលមកខ្ញុំដោយផ្ទាល់។",
   },
 };
 
 const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID?.trim();
 const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID?.trim();
 const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY?.trim();
+const IS_EMAIL_CONFIGURED = Boolean(
+  EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY,
+);
 
 function getSocialIcon(kind) {
   switch (kind) {
@@ -106,11 +109,7 @@ export function Contact() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-
-    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
-      setFormStatus({ tone: "error", message: statusCopy.configError });
-      return;
-    }
+    if (isSubmitting) return;
 
     const normalizedFormData = {
       name: formData.name.trim(),
@@ -127,6 +126,11 @@ export function Contact() {
       return;
     }
 
+    if (!IS_EMAIL_CONFIGURED) {
+      setFormStatus({ tone: "error", message: statusCopy.configError });
+      return;
+    }
+
     setIsSubmitting(true);
     setFormStatus({ tone: "idle", message: "" });
 
@@ -137,6 +141,7 @@ export function Contact() {
         {
           name: normalizedFormData.name,
           email: normalizedFormData.email,
+          reply_to: normalizedFormData.email,
           subject: normalizedFormData.subject,
           message: normalizedFormData.message,
         },
@@ -147,13 +152,10 @@ export function Contact() {
 
       setFormData(INITIAL_FORM_DATA);
       setFormStatus({ tone: "success", message: statusCopy.success });
-    } catch (error) {
+    } catch {
       setFormStatus({
         tone: "error",
-        message:
-          error instanceof Error && error.message
-            ? error.message
-            : statusCopy.error,
+        message: statusCopy.error,
       });
     } finally {
       setIsSubmitting(false);
@@ -161,10 +163,7 @@ export function Contact() {
   }
 
   return (
-    <section
-      className="relative flex min-h-[78vh] flex-col justify-center py-24"
-      id={SECTION_IDS.contact}
-    >
+    <section className="relative py-24" id={SECTION_IDS.contact}>
       <div className="container mx-auto px-6 max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -257,6 +256,7 @@ export function Contact() {
             <form
               className="relative z-10 flex flex-col gap-3.5"
               onSubmit={handleSubmit}
+              aria-busy={isSubmitting}
             >
               {FORM_FIELDS.map((field) => (
                 <div key={field.id} className="flex flex-col gap-2">
@@ -275,6 +275,7 @@ export function Contact() {
                     placeholder={field.placeholder}
                     autoComplete={field.autoComplete}
                     required
+                    maxLength={field.id === "email" ? 254 : 160}
                     disabled={isSubmitting}
                     className="w-full min-h-11 rounded-xl border border-[var(--color-border)] bg-[var(--color-foreground)]/5 px-3.5 py-2.5 text-sm font-light text-[var(--color-foreground)] outline-none transition-colors placeholder:text-[var(--color-muted)] focus:border-[var(--color-glass-border)] disabled:cursor-not-allowed disabled:opacity-60"
                   />
@@ -297,6 +298,7 @@ export function Contact() {
                   placeholder="Tell me about your project..."
                   autoComplete="off"
                   required
+                  maxLength={5000}
                   disabled={isSubmitting}
                   className="w-full bg-[var(--color-foreground)]/5 border border-[var(--color-border)] rounded-xl px-3.5 py-2.5 outline-none focus:border-[var(--color-glass-border)] transition-colors font-light text-sm text-[var(--color-foreground)] placeholder:text-[var(--color-muted)] resize-y disabled:cursor-not-allowed disabled:opacity-60"
                 />
@@ -305,10 +307,11 @@ export function Contact() {
               {formStatus.message ? (
                 <p
                   aria-live="polite"
+                  role={formStatus.tone === "error" ? "alert" : "status"}
                   className={`rounded-2xl border px-4 py-3 text-sm ${
                     formStatus.tone === "success"
-                      ? "border-emerald-400/40 bg-emerald-500/10 text-emerald-200"
-                      : "border-rose-400/40 bg-rose-500/10 text-rose-200"
+                      ? "border-emerald-400/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+                      : "border-rose-400/40 bg-rose-500/10 text-rose-700 dark:text-rose-300"
                   }`}
                 >
                   {formStatus.message}
