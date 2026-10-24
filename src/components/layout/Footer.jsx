@@ -1,5 +1,12 @@
 ﻿import { useEffect, useState } from "react";
-import { ArrowUp, ArrowUpRight, Download, Mail, MapPin } from "lucide-react";
+import {
+  ArrowUp,
+  ArrowUpRight,
+  Download,
+  Mail,
+  MapPin,
+  ShieldCheck,
+} from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { CONTACT_DETAILS, SITE_NAME, SOCIAL_LINKS } from "../../config/site";
 import { useLanguage } from "../../context/LanguageContext";
@@ -126,14 +133,23 @@ export function Footer() {
               {t.footer.built}
             </p>
           </div>
-          <button
-            type="button"
-            onClick={scrollToTop}
-            className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-muted)] transition-colors hover:text-[var(--color-foreground)]"
-          >
-            {t.footer.backTop}
-            <ArrowUp className="h-4 w-4" />
-          </button>
+          <div className="flex flex-wrap items-center gap-5">
+            <a
+              href="/admin"
+              className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-[var(--color-border)] px-4 py-2 text-sm font-medium text-[var(--color-muted)] transition-colors hover:border-blue-500/50 hover:bg-blue-500/5 hover:text-[var(--color-primary)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500"
+            >
+              <ShieldCheck className="h-4 w-4" aria-hidden="true" />
+              Admin
+            </a>
+            <button
+              type="button"
+              onClick={scrollToTop}
+              className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-muted)] transition-colors hover:text-[var(--color-foreground)]"
+            >
+              {t.footer.backTop}
+              <ArrowUp className="h-4 w-4" />
+            </button>
+          </div>
         </div>
       </div>
 

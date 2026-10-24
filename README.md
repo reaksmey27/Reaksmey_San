@@ -27,6 +27,40 @@ A personal portfolio built with React, Vite, Tailwind CSS, and Motion.
 3. Add your EmailJS keys to the `.env` file
 4. Start the app with `npm run dev`
 
+## Firebase project admin
+
+After sign-in, `/admin` opens a dashboard with a desktop sidebar and a mobile menu. **Overview** shows actual project counts, the five newest projects, category totals, and the most-used technologies. Select a latest-project row to edit it. **Projects** contains the existing searchable project collection and editor; **Appearance** controls the saved light/dark theme and shows your signed-in account. Sidebar shortcuts open a new project, visit the public portfolio, or sign out. Navigation away from an open editor asks before discarding unsaved changes.
+
+Open `/admin` to add, edit, or delete projects. The editor supports English and Khmer text, category, project dates, image URL, technologies, project links, and a newest badge. Projects sort automatically by date, newest first, in both the admin and public portfolio. Blank Khmer fields use the English text. Images currently use hosted URLs; file uploads are not included.
+
+Only the title, short English description, and a cover for new projects are required. When editing, a blank image URL keeps the current cover. Optional details, translations, and display settings are grouped in expandable sections. Blank badges use the category name, blank link labels use the link type, and links with empty URLs are skipped. These defaults work with the existing Firestore rules.
+
+Use the **Technologies & tools** picker to search and select items with their icons, filter by technologies or tools, and remove selected chips. Unlisted names can be added with a generic code icon. Icons are shared between the editor, admin cards, and public project cards/details. Existing technology names and aliases (such as JS/JavaScript and Tailwind/Tailwind CSS) remain supported. No Firestore rules changes are needed.
+
+Optional **Start date** and **End date** pickers generate the portfolio date label in English and Khmer. A start without an end displays “Present”; an end alone displays that date. End dates cannot precede start dates. Exact ISO dates are saved as `date.start` and `date.end` alongside the existing `date.en` and `date.km` labels, so the existing Firestore rules still apply. Old custom labels are preserved until dates are chosen. Clear both pickers to enter a custom date label again.
+
+Sorting uses the end date, then the start date when no end is set. Older English labels such as `Jul 3 - 30 2026`, `Mar - Apr 2026`, and `Dec 2025` are recognized; month-only labels sort at the end of that month. Unrecognized or empty dates sort last. Equal dates use a stable project-ID tie-breaker. Adding or editing dates immediately updates the order; changing other fields does not change the project date. The old numeric `order` field is retained for compatibility with deployed Firestore rules but no longer controls sorting.
+
+1. Create a Firebase project and register a web app in Project settings. Copy its `apiKey`, `authDomain`, `projectId`, and `appId` into the corresponding `VITE_FIREBASE_*` variables shown in `.env.example`. Add them to your hosting environment too, then restart Vite or rebuild the deployed site. Web config is public; never put service account credentials in a `VITE_` variable.
+2. Enable **Authentication → Sign-in method → Email/Password**. Create your account in Authentication → Users and copy its UID. Add your website domain to Authentication → Settings → Authorized domains as needed.
+3. Create a Cloud Firestore database (default database, production mode). Publish the contents of `firestore.rules` in its Rules tab. Alternatively, with Firebase CLI installed and signed in, run `firebase deploy --only firestore:rules --project YOUR_PROJECT_ID`.
+4. In Firestore's Data tab, create the `admins` collection and a document whose ID is exactly your Authentication UID. Add a field such as `name` with your name. Document existence grants access. Only the Firebase console or trusted server tooling can grant this role; browser clients cannot create admin records. Delete the admin document to revoke access.
+5. Visit `/admin` and sign in. Add a test project, check it on the public portfolio, edit it, then delete it. Also verify an account without an admin document cannot edit projects. Real Firebase sign-in and rules require this external setup and are not covered by the offline browser tests.
+
+The public website listens to the `projects` collection. Existing bundled projects appear immediately and remain the baseline; editing one saves an override using its existing ID. Deletion writes a `{ deleted: true }` marker so bundled projects do not reappear. Do not manually remove deletion markers unless you want to restore the original project. New projects use generated IDs. All project documents are publicly readable, including deletion markers; do not store private content in this collection. On connection failure, the public page keeps its last loaded data (or bundled projects on initial load); the admin displays an error and blocks editing until reload.
+
+Bundled project images stay tied to the current build when their Image URL field is blank. Use an externally hosted image URL for new projects or replacement images. Vercel rewrites for `/admin` are included; on other hosts, configure `/admin` to serve `index.html`.
+
+Reference: [Firebase password authentication](https://firebase.google.com/docs/auth/web/password-auth) and [Firestore security rules](https://firebase.google.com/docs/firestore/security/get-started).
+
+## Automatic Khmer translation
+
+In the project editor, expand **Khmer translations** and click **Auto-translate to Khmer**. It sends only English fields with blank Khmer translations to Gemini. Review the generated text before clicking Save; translation does not save or publish the project. Existing Khmer text is never overwritten. To retranslate a field, clear its Khmer text first. Blank optional English fields are skipped.
+
+Set `GEMINI_API_KEY` in the server environment, without a `VITE_` prefix. The optional `GEMINI_TRANSLATION_MODEL` defaults to `gemini-2.5-flash`. Keep the four existing Firebase web config variables available as well. For local development, use `.env` and restart `npm run dev`; Vite serves the local translation endpoint. For Vercel, add the server key in the project's Environment Variables and redeploy. Static hosting alone cannot run this feature; it needs the included `/api/translate-project` server function. Never commit the API key or put it in browser code.
+
+The endpoint validates Firebase sign-in and checks `admins/{UID}` with the existing Firestore rules before calling Gemini. It limits input to 12,000 characters per request, applies a best-effort 15-second per-user throttle per server instance, and returns quota/configuration errors without changing your text. Gemini usage and free-tier availability depend on the selected model and account; see [Gemini pricing](https://ai.google.dev/gemini-api/docs/pricing). No Firestore rules update is needed.
+
 ## Contact Form Setup
 
 The contact form submits email through EmailJS. Optional Telegram alerts use the included Vercel Function.

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { AnimatePresence, MotionConfig } from "motion/react";
 import { CustomCursor } from "./components/ui/CustomCursor";
 import { PageLoader } from "./components/ui/PageLoader";
@@ -18,6 +18,7 @@ import { Contact } from "./pages/Contact";
 import { Footer } from "./components/layout/Footer";
 
 const INTRO_DURATION_MS = 1500;
+const Admin = lazy(() => import("./pages/Admin"));
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,6 +30,14 @@ export default function App() {
 
     return () => window.clearTimeout(timer);
   }, []);
+
+  if (/^\/admin\/?$/.test(window.location.pathname)) {
+    return (
+      <Suspense fallback={<p className="p-8">Loading admin…</p>}>
+        <Admin />
+      </Suspense>
+    );
+  }
 
   return (
     <MotionConfig reducedMotion="user">

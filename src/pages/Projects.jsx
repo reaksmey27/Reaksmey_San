@@ -9,79 +9,18 @@ import {
   Play,
   X,
 } from "lucide-react";
-import { IoLogoJavascript } from "react-icons/io5";
-import {
-  FaCss3Alt,
-  FaFacebookF,
-  FaFigma,
-  FaGithub,
-  FaHtml5,
-  FaLaravel,
-  FaNodeJs,
-  FaReact,
-  FaVuejs,
-} from "react-icons/fa";
-import {
-  SiExpress,
-  SiTailwindcss,
-  SiPython,
-  SiFlask,
-  SiMysql,
-  SiPostman,
-} from "react-icons/si";
+import { FaFacebookF, FaFigma } from "react-icons/fa";
+import { TechIcon } from "../components/ui/TechIcon";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { SECTION_IDS } from "../config/site";
 import { useLanguage } from "../context/LanguageContext";
 import {
   PROJECT_BADGE_CLASS_NAMES,
   PROJECT_FILTERS,
-  PROJECTS,
   PROJECTS_PER_PAGE,
 } from "../data/projects";
 import { getLocalizedValue } from "../utils/localization";
-
-function getTechIcon(tech, className = "w-4 h-4") {
-  switch (tech) {
-    case "React":
-      return <FaReact className={`${className} text-[#61DAFB]`} />;
-    case "Node.js":
-      return <FaNodeJs className={`${className} text-[#5FA04E]`} />;
-    case "Express.js":
-      return (
-        <SiExpress className={`${className} text-[var(--color-foreground)]`} />
-      );
-    case "Tailwind":
-      return <SiTailwindcss className={`${className} text-[#06B6D4]`} />;
-    case "HTML":
-      return <FaHtml5 className={`${className} text-[#E34F26]`} />;
-    case "CSS":
-      return <FaCss3Alt className={`${className} text-[#1572B6]`} />;
-    case "JS":
-      return <IoLogoJavascript className={`${className} text-[#F7DF1E]`} />;
-    case "Facebook":
-      return <FaFacebookF className={`${className} text-[#1877F2]`} />;
-    case "Figma":
-      return <FaFigma className={`${className} text-[#F24E1E]`} />;
-    case "Python":
-      return <SiPython className={`${className} text-[#3776AB]`} />;
-    case "Flask":
-      return <SiFlask className={`${className} text-[#000000]`} />;
-    case "Vue.js":
-      return <FaVuejs className={`${className} text-[#4FC08D]`} />;
-    case "Laravel":
-      return <FaLaravel className={`${className} text-[#FF2D20]`} />;
-    case "MySQL":
-      return <SiMysql className={`${className} text-[#4479A1]`} />;
-    case "GitHub":
-      return (
-        <FaGithub className={`${className} text-[var(--color-foreground)]`} />
-      );
-    case "Postman":
-      return <SiPostman className={`${className} text-[#FF6C37]`} />;
-    default:
-      return null;
-  }
-}
+import { useProjects } from "../hooks/useProjects";
 
 function getLinkIcon(kind, className = "w-4 h-4") {
   switch (kind) {
@@ -106,12 +45,13 @@ function getBadgeClasses(type) {
 }
 
 export function Projects() {
+  const { projects } = useProjects();
   const { t, language } = useLanguage();
   const [activeFilter, setActiveFilter] = useState("all");
   const [expandedProjectId, setExpandedProjectId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const detailsDialog = useRef(null);
-  const selectedProject = PROJECTS.find(
+  const selectedProject = projects.find(
     (project) => project.id === expandedProjectId,
   );
 
@@ -131,7 +71,7 @@ export function Projects() {
   useEffect(() => {
     setCurrentPage(1);
     setExpandedProjectId(null);
-  }, [activeFilter]);
+  }, [activeFilter, projects]);
 
   useEffect(() => {
     const workSection = document.getElementById(SECTION_IDS.work);
@@ -146,7 +86,7 @@ export function Projects() {
     return undefined;
   }, [currentPage]);
 
-  const filteredProjects = PROJECTS.filter(
+  const filteredProjects = projects.filter(
     (project) => activeFilter === "all" || project.type === activeFilter,
   );
 
@@ -173,7 +113,7 @@ export function Projects() {
             titleClassName="text-3xl sm:text-4xl md:text-5xl"
           />
           <div className="self-center md:self-auto px-4 py-2 rounded-full border border-[var(--color-border)] bg-[var(--color-card)] text-xs sm:text-sm uppercase tracking-[0.2em] text-[var(--color-muted)]">
-            {PROJECTS.length} {t.projects.totalLabel}
+            {projects.length} {t.projects.totalLabel}
           </div>
         </motion.div>
 
@@ -310,9 +250,11 @@ export function Projects() {
                             </motion.span>
                           )}
                         </div>
-                        <span className="text-[11px] font-mono text-[var(--color-muted)] px-2 py-1 bg-[var(--color-card)] rounded-md border border-[var(--color-border)]">
-                          {getLocalizedValue(project.date, language)}
-                        </span>
+                        {getLocalizedValue(project.date, language) && (
+                          <span className="text-[11px] font-mono text-[var(--color-muted)] px-2 py-1 bg-[var(--color-card)] rounded-md border border-[var(--color-border)]">
+                            {getLocalizedValue(project.date, language)}
+                          </span>
+                        )}
                       </motion.div>
 
                       <motion.h4
@@ -337,9 +279,12 @@ export function Projects() {
                         {project.tech.map((techItem) => (
                           <div
                             key={techItem}
+                            role="img"
+                            aria-label={techItem}
+                            title={techItem}
                             className="group/tech relative flex items-center justify-center w-9 h-9 bg-[var(--color-card)] border border-[var(--color-border)] rounded-full hover:bg-[var(--color-card-active)] hover:border-[var(--color-glass-border)] transition-all cursor-help"
                           >
-                            {getTechIcon(techItem, "w-4 h-4")}
+                            <TechIcon name={techItem} className="w-4 h-4" />
                             <span className="absolute -top-8 opacity-0 group-hover/tech:opacity-100 transition-opacity bg-[var(--color-background)]/80 text-[var(--color-foreground)] text-[10px] px-2 py-1 rounded whitespace-nowrap pointer-events-none border border-[var(--color-border)]">
                               {techItem}
                             </span>
@@ -410,7 +355,7 @@ export function Projects() {
                     key={tech}
                     className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] px-3 py-1.5 text-xs"
                   >
-                    {getTechIcon(tech, "h-4 w-4 shrink-0")}
+                    <TechIcon name={tech} className="h-4 w-4 shrink-0" />
                     {tech}
                   </span>
                 ))}

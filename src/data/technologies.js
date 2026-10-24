@@ -1,0 +1,205 @@
+import {
+  FaReact,
+  FaVuejs,
+  FaNodeJs,
+  FaHtml5,
+  FaCss3Alt,
+  FaLaravel,
+  FaPhp,
+  FaBootstrap,
+  FaGitAlt,
+  FaGithub,
+  FaFigma,
+  FaFacebookF,
+  FaDocker,
+} from "react-icons/fa";
+import { IoLogoJavascript } from "react-icons/io5";
+import {
+  SiTypescript,
+  SiNextdotjs,
+  SiVite,
+  SiExpress,
+  SiTailwindcss,
+  SiPython,
+  SiFlask,
+  SiMysql,
+  SiPostgresql,
+  SiMongodb,
+  SiFirebase,
+  SiSupabase,
+  SiPostman,
+  SiVercel,
+  SiNetlify,
+  SiCloudflare,
+  SiCanva,
+} from "react-icons/si";
+
+export const TECHNOLOGIES = [
+  {
+    name: "HTML",
+    label: "HTML",
+    aliases: ["HTML5"],
+    icon: FaHtml5,
+    color: "#E34F26",
+  },
+  {
+    name: "CSS",
+    label: "CSS",
+    aliases: ["CSS3"],
+    icon: FaCss3Alt,
+    color: "#1572B6",
+  },
+  {
+    name: "JS",
+    label: "JavaScript",
+    aliases: ["JavaScript"],
+    icon: IoLogoJavascript,
+    color: "#d0a900",
+  },
+  {
+    name: "TypeScript",
+    label: "TypeScript",
+    aliases: ["TS"],
+    icon: SiTypescript,
+    color: "#3178C6",
+  },
+  {
+    name: "React",
+    label: "React",
+    aliases: ["React.js", "ReactJS"],
+    icon: FaReact,
+    color: "#149eca",
+  },
+  {
+    name: "Vue.js",
+    label: "Vue.js",
+    aliases: ["Vue", "VueJS"],
+    icon: FaVuejs,
+    color: "#42b883",
+  },
+  {
+    name: "Next.js",
+    label: "Next.js",
+    aliases: ["Next", "NextJS"],
+    icon: SiNextdotjs,
+  },
+  {
+    name: "Tailwind",
+    label: "Tailwind CSS",
+    aliases: ["Tailwind CSS", "TailwindCSS"],
+    icon: SiTailwindcss,
+    color: "#06B6D4",
+  },
+  {
+    name: "Bootstrap",
+    label: "Bootstrap",
+    icon: FaBootstrap,
+    color: "#7952B3",
+  },
+  {
+    name: "Node.js",
+    label: "Node.js",
+    aliases: ["Node", "NodeJS"],
+    icon: FaNodeJs,
+    color: "#5FA04E",
+  },
+  {
+    name: "Express.js",
+    label: "Express.js",
+    aliases: ["Express", "ExpressJS"],
+    icon: SiExpress,
+  },
+  { name: "PHP", label: "PHP", icon: FaPhp, color: "#777BB4" },
+  { name: "Laravel", label: "Laravel", icon: FaLaravel, color: "#FF2D20" },
+  { name: "Python", label: "Python", icon: SiPython, color: "#3776AB" },
+  { name: "Flask", label: "Flask", icon: SiFlask },
+  { name: "MySQL", label: "MySQL", icon: SiMysql, color: "#4479A1" },
+  {
+    name: "PostgreSQL",
+    label: "PostgreSQL",
+    aliases: ["Postgres"],
+    icon: SiPostgresql,
+    color: "#4169E1",
+  },
+  { name: "MongoDB", label: "MongoDB", icon: SiMongodb, color: "#47A248" },
+  { name: "Firebase", label: "Firebase", icon: SiFirebase, color: "#ef8a00" },
+  { name: "Supabase", label: "Supabase", icon: SiSupabase, color: "#24b47e" },
+  {
+    name: "Git",
+    label: "Git",
+    icon: FaGitAlt,
+    color: "#F05032",
+    group: "tools",
+  },
+  { name: "GitHub", label: "GitHub", icon: FaGithub, group: "tools" },
+  {
+    name: "Figma",
+    label: "Figma",
+    icon: FaFigma,
+    color: "#F24E1E",
+    group: "tools",
+  },
+  {
+    name: "Postman",
+    label: "Postman",
+    icon: SiPostman,
+    color: "#FF6C37",
+    group: "tools",
+  },
+  {
+    name: "Vite",
+    label: "Vite",
+    icon: SiVite,
+    color: "#9463f7",
+    group: "tools",
+  },
+  {
+    name: "Docker",
+    label: "Docker",
+    icon: FaDocker,
+    color: "#2496ED",
+    group: "tools",
+  },
+  { name: "Vercel", label: "Vercel", icon: SiVercel, group: "tools" },
+  {
+    name: "Netlify",
+    label: "Netlify",
+    icon: SiNetlify,
+    color: "#00AD9F",
+    group: "tools",
+  },
+  {
+    name: "Cloudflare",
+    label: "Cloudflare",
+    icon: SiCloudflare,
+    color: "#F38020",
+    group: "tools",
+  },
+  {
+    name: "Canva",
+    label: "Canva",
+    icon: SiCanva,
+    color: "#00A6B8",
+    group: "tools",
+  },
+  {
+    name: "Facebook",
+    label: "Facebook",
+    icon: FaFacebookF,
+    color: "#1877F2",
+    group: "tools",
+  },
+];
+
+export function findTechnology(name) {
+  const normalized = name.trim().toLowerCase();
+  return TECHNOLOGIES.find((item) =>
+    [item.name, item.label, ...(item.aliases || [])].some(
+      (value) => value.toLowerCase() === normalized,
+    ),
+  );
+}
+
+export function technologyKey(name) {
+  return (findTechnology(name)?.name || name.trim()).toLowerCase();
+}

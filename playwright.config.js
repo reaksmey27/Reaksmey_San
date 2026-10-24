@@ -14,6 +14,7 @@ export default defineConfig({
         VITE_EMAILJS_SERVICE_ID: "test-service",
         VITE_EMAILJS_TEMPLATE_ID: "test-template",
         VITE_EMAILJS_PUBLIC_KEY: "test-key",
+        VITE_FIREBASE_API_KEY: "",
       },
     },
     {
@@ -24,6 +25,7 @@ export default defineConfig({
         VITE_EMAILJS_SERVICE_ID: "",
         VITE_EMAILJS_TEMPLATE_ID: "",
         VITE_EMAILJS_PUBLIC_KEY: "",
+        VITE_FIREBASE_API_KEY: "",
       },
     },
   ],
