@@ -64,12 +64,28 @@ for (const width of [360, 768, 1024, 1440]) {
     expect(
       await dialog.evaluate((el) => el.scrollWidth <= el.clientWidth + 1),
     ).toBe(true);
-    await dialog.evaluate((el) => {
+    const content = dialog.getByTestId("project-details-content");
+    expect(
+      await content.evaluate((el) => el.scrollWidth <= el.clientWidth + 1),
+    ).toBe(true);
+    const bounds = await dialog.boundingBox();
+    expect(bounds.width).toBeGreaterThan(width >= 1440 ? 1100 : width - 65);
+    expect(bounds.y).toBeGreaterThanOrEqual(0);
+    expect(bounds.y + bounds.height).toBeLessThanOrEqual(900);
+    await page.screenshot({ path: `test-results/dialog-${width}.png` });
+    await content.evaluate((el) => {
       el.scrollTop = el.scrollHeight;
     });
     const close = dialog.getByRole("button", { name: "Close project details" });
     await expect(close).toBeInViewport();
-    await page.screenshot({ path: `test-results/dialog-${width}.png` });
+    await page.setViewportSize({ width, height: 480 });
+    await expect(close).toBeInViewport();
+    await content.evaluate((el) => {
+      el.scrollTop = el.scrollHeight;
+    });
+    const lastLink = dialog.getByRole("link").last();
+    if (await lastLink.count()) await expect(lastLink).toBeInViewport();
+    await page.setViewportSize({ width, height: 900 });
     await page.keyboard.press("Escape");
     await expect(dialog).not.toBeVisible();
     await expect(readMore).toBeFocused();

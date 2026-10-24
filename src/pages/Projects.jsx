@@ -314,14 +314,14 @@ export function Projects() {
           ref={detailsDialog}
           onClose={() => setExpandedProjectId(null)}
           aria-labelledby="project-details-title"
-          className="fixed inset-0 m-auto max-h-[85dvh] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-background)] p-6 text-[var(--color-foreground)] shadow-2xl backdrop:bg-black/60 sm:p-8"
+          className="fixed inset-0 m-auto max-h-[calc(100dvh-1rem)] w-[calc(100%-1rem)] max-w-7xl overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-background)] p-0 text-[var(--color-foreground)] shadow-2xl backdrop:bg-black/65 backdrop:backdrop-blur-sm open:flex open:flex-col sm:max-h-[92dvh] sm:w-[calc(100%-3rem)] sm:rounded-3xl"
         >
           {selectedProject && (
             <>
-              <div className="sticky -top-6 z-10 -mx-6 -mt-6 mb-5 flex items-start justify-between gap-4 border-b border-[var(--color-border)] bg-[var(--color-background)] px-6 py-5 sm:-top-8 sm:-mx-8 sm:-mt-8 sm:px-8">
+              <div className="flex shrink-0 items-start justify-between gap-4 border-b border-[var(--color-border)] bg-[var(--color-background)] px-5 py-5 sm:px-8 sm:py-6">
                 <h2
                   id="project-details-title"
-                  className="font-display text-xl font-semibold sm:text-2xl"
+                  className="min-w-0 break-words font-display text-xl font-semibold leading-snug tracking-tight sm:text-2xl lg:text-3xl"
                 >
                   {selectedProject.title}
                 </h2>
@@ -330,49 +330,61 @@ export function Projects() {
                   autoFocus
                   onClick={() => setExpandedProjectId(null)}
                   aria-label={t.projects.closeDetails}
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--color-border)] hover:bg-[var(--color-card-active)]"
+                  className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-[var(--color-border)] transition-colors hover:bg-[var(--color-card-active)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 sm:h-12 sm:w-12"
                 >
                   <X className="h-5 w-5" />
                 </button>
               </div>
-              <div className="mb-6 overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-card)]">
-                <img
-                  key={selectedProject.id}
-                  src={selectedProject.image}
-                  alt={selectedProject.title}
-                  className="block max-h-[40dvh] w-full object-contain"
-                />
-              </div>
-              <p className="text-sm leading-relaxed text-[var(--color-muted)]">
-                {getLocalizedValue(selectedProject.description, language)}
-              </p>
-              <p className="mt-4 text-sm leading-relaxed text-[var(--color-muted)]">
-                {getLocalizedValue(selectedProject.longDescription, language)}
-              </p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {selectedProject.tech.map((tech) => (
-                  <span
-                    key={tech}
-                    className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] px-3 py-1.5 text-xs"
-                  >
-                    <TechIcon name={tech} className="h-4 w-4 shrink-0" />
-                    {tech}
-                  </span>
-                ))}
-              </div>
-              <div className="mt-6 flex flex-wrap gap-3">
-                {selectedProject.links.map((link) => (
-                  <a
-                    key={link.url}
-                    href={link.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
-                  >
-                    {getLinkIcon(link.kind)}
-                    {getLocalizedValue(link.label, language)}
-                  </a>
-                ))}
+              <div
+                data-testid="project-details-content"
+                className="min-h-0 overflow-y-auto overscroll-contain p-5 [scrollbar-width:thin] sm:p-8"
+              >
+                <div className="grid min-w-0 gap-6 sm:gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:items-start lg:gap-10">
+                  <div className="min-w-0 overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-card)] sm:rounded-2xl">
+                    <img
+                      key={selectedProject.id}
+                      src={selectedProject.image}
+                      alt={selectedProject.title}
+                      className="block max-h-[65dvh] w-full object-contain lg:max-h-[72dvh]"
+                    />
+                  </div>
+                  <div className="min-w-0 [overflow-wrap:anywhere]">
+                    <p className="text-base leading-7 text-[var(--color-foreground)] sm:text-lg sm:leading-8">
+                      {getLocalizedValue(selectedProject.description, language)}
+                    </p>
+                    <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[var(--color-muted)] sm:mt-5 sm:text-base">
+                      {getLocalizedValue(
+                        selectedProject.longDescription,
+                        language,
+                      )}
+                    </p>
+                    <div className="mt-6 flex flex-wrap gap-2">
+                      {selectedProject.tech.map((tech) => (
+                        <span
+                          key={tech}
+                          className="inline-flex max-w-full items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-card)] px-3 py-2 text-xs sm:text-sm"
+                        >
+                          <TechIcon name={tech} className="h-4 w-4 shrink-0" />
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="mt-7 flex flex-col gap-3 border-t border-[var(--color-border)] pt-6 sm:flex-row sm:flex-wrap">
+                      {selectedProject.links.map((link) => (
+                        <a
+                          key={link.url}
+                          href={link.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 [&>svg]:shrink-0"
+                        >
+                          {getLinkIcon(link.kind)}
+                          {getLocalizedValue(link.label, language)}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
             </>
           )}
