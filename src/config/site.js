@@ -43,7 +43,7 @@ export const PROFILE_ASSETS = {
 export const CONTACT_DETAILS = {
   email: "reaksmeysan.official@gmail.com",
   location: "Sangkat Tek Thla, Khan SenSok, Phnom Penh, Cambodia",
-  resumeHref: new URL("../assets/CV/REAKSMEY SAN-CV.pdf", import.meta.url).href,
+  resumeHref: new URL("../assets/CV/REAKSMEY-SAN-CV.pdf", import.meta.url).href,
   resumeFilename: "REAKSMEY SAN-CV.pdf",
 };
 
